@@ -4,18 +4,26 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --hot --inline",
     "build": "webpack",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "babel-loader": "^6.2.5",
+    "chai": "^3.5.0",
+    "css-loader": "^0.24.0",
     "escape-html": "^1.0.3",
     "firebase": "^3.3.0",
     "firebase-tools": "^3.0.7",
     "jquery": "^3.1.0",
+    "mocha": "^3.0.2",
+    "mocha-loader": "^0.7.1",
+    "node-sass": "^3.9.0",
+    "sass-loader": "^4.0.1",
+    "style-loader": "^0.13.1",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.15.1"
   }
