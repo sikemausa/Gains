@@ -26,19 +26,12 @@ describe('Action', function() {
     });
 
   context('action constructor', function(){
-    let action = new Action();
 
     it('should return .startTime if .start is called', function() {
-      // this is not functioning properly
+      let action = new Action;
       let time = Date.now();
-      action.start;
-      assert.equal(action.startTime, action.start);
-    });
-
-    it('should return .scheduled if the scheduled method is called', function() {
-      let duration = 20;
-      action.scheduled;
-      assert.equal(action.scheduledTime, action.scheduled);
+      action.start(time);
+      assert.equal(action.startTime, action.start());
     });
   });
 });
