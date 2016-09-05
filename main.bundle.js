@@ -47,6 +47,11 @@
 	const firebase = __webpack_require__(1);
 	const validateInputFields = __webpack_require__(4);
 	const renderSnippet = __webpack_require__(7);
+
+	const Room = __webpack_require__(9);
+
+	Room();
+
 	const  {
 	  $snippetsSection,
 	  $newSnippetForm,
@@ -10945,6 +10950,127 @@
 	    ? html + str.substring(lastIndex, index)
 	    : html;
 	}
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	const $ = __webpack_require__(6);
+	// const Goal = require('./lib/objects/goal');
+	const consoleGoal = __webpack_require__(10);
+
+	consoleGoal();
+
+	class Room {
+	  constructor() {
+	    this.time = Date.now();
+	    this.goals = [];
+	  }
+	  resetPage() {
+	  }
+	  render() {
+	  }
+	  store() {
+	    // require Firebase if you use it to store
+	  }
+	  getStored() {
+	    // require Firebase if you use it to store
+	  }
+	}
+
+	// module.exports = Room;
+
+
+
+	module.exports = function consoleRoom() {
+	  console.log('room');
+	};
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	const $ = __webpack_require__(6);
+	// const Action = require('./lib/objects/action');
+	const consoleAction = __webpack_require__(11);
+
+	consoleAction();
+
+	class Goal {
+	  constructor(options) {
+	    this.progress,
+	    this.title,
+	    this.category,
+	    this.actions = [],
+	    this.status = 'uncomplete' // complete or uncomplete
+	  }
+	  addAction() {
+	  }
+	  removeAction() {
+	  }
+	  displayAction() {
+	  }
+	  deleteAction() {
+	  }
+	  searchAction() {
+	  }
+	  setGoal() {
+	  }
+	  editGoal() {
+	  }
+	  updateGoalStatus() {
+	  }
+	  completeGoal() {
+	  }
+	}
+
+
+
+	// module.exports = Goal;
+
+
+	module.exports = function consoleGoal() {
+	  console.log('goal');
+	};
+
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	const $ = __webpack_require__(6);
+
+	class Action {
+	  constructor() {
+	    this.startTime,
+	    this.endTime,
+	    this.note = [],
+	    this.details
+	  }
+	  startTime() {
+	  }
+	  endTime() {
+	  }
+	  addNote() {
+	  }
+	  editDetails() {
+	  }
+	}
+
+	module.exports = function consoleAction() {
+	    console.log('action');
+	  };
+	//
+	// module.exports = Action;
+	// module.exports = consoleAction;
 
 
 /***/ }
