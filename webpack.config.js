@@ -5,10 +5,14 @@ module.exports = {
   main: './lib/index.js',
   test: "mocha!./test/index.js"
   },
+  // output: {
+  //     path: path.join(__dirname, 'public'),
+  //     publicPath: "/public/",
+  //     filename: 'bundle.js'
+  // },
   output: {
-      path: path.join(__dirname, 'public'),
-      publicPath: "/public/",
-      filename: 'bundle.js'
+    path: __dirname,
+    filename: "[name].bundle.js"
   },
   module: {
     loaders: [
