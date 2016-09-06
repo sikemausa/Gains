@@ -32,14 +32,7 @@ describe('Action', function() {
       let action = new Action;
       let time = Date.now();
       action.start(time);
-      assert.equal(action.startTime, action.start());
-    });
-
-    it('should add an action object onto the goal array', function() {
-      let goal = new Goal();
-      let action = new Action();
-      action.add();
-      assert.equal(goal.length, 1);
+      assert.equal(action.id, action.start());
     });
   });
 });
