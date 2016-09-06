@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   entry: {
   main: './lib/index.js',
-  test: "mocha!./test/unit-tests/index.js"
+  test: 'mocha!./test/unit-tests/index.js'
   },
   // output: {
   //     path: path.join(__dirname, 'public'),
@@ -12,16 +12,17 @@ module.exports = {
   // },
   output: {
     path: __dirname,
-    filename: "[name].bundle.js"
+    filename: '[name].bundle.js'
   },
   module: {
     loaders: [
       { test: /\.css$/, loader: 'style!css' },
-      { test: /\.scss$/, loader: 'style!css!sass' }
+      { test: /\.scss$/, loader: 'style!css!sass' },
+      { test: /\.jsx$/, exclude: '/node_modules/', loader: 'babel-loader?presets[]=es2015'}
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.json', '.scss', '.css']
+    extensions: ['', '.css', '.js', '.json', '.jsx', '.scss']
   },
   devtool: 'cheap-source-map'
 };
