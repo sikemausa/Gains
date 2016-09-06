@@ -2,28 +2,91 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Snippet Sampler</title>
+    <title>Gains</title>
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
 
-    <header>
-      <h1>Snippet Sampler</h1>
-      <button id="sign-in">Sign In</button>
+    <section class="signin">
+      <h1>GAINS</h1>
+      <button id="sign-in">Get Swoll</button>
       <div id="user-info"></div>
-    </header>
+    </section>
 
-    <section id="new-snippet">
+    <section id="home">
+      <header>
+      <!-- Aria tag here -->
+        <img id="menu-button"/>
+        <h1>Gains</h1>
+      </header>
+      <ul id="room">
+        <!-- Goal Sample -->
+        <li class="goal">
+          <button class="achieved">+</button>
+          <div class="progress">30%</div>
+          <h2 class="category">Activity</h2>
+          <h3 class="action">Run 5 miles</h3>
+          <button class="failed">-</button>
+          <h3 class="goal-reminder">Run marathon</h3>
+        </li>
+        <!-- Goal Format -->
+        <li class="goal">
+          <button class="achieved"></button>
+          <div class="progress"></div>
+          <h2 class="category"></h2>
+          <h3 class="action"></h3>
+          <button class="failed"></button>
+          <h3 class="goal-reminder"></h3>
+        </li>
+      </ul>
+    </section>
+
+    <aside class="menu">
+      <ul id="goal-list">
+        <li>ACTIVITY</li>
+        <li>NUTRITION</li>
+        <li>RECOVERY</li>
+        <li>OTHER</li>
+      </ul>
+      <button id="add-goal"></button>
+    </aside>
+
+    <section class="goal">
+      <header>
+      <!-- Aria tag here -->
+        <img id="menu-button"/>
+        <h1 class="goal-title">Run marathon</h1>
+        <h2 class="category"></h2>
+      </header>
+      <ul class="action-list">
+        <!-- Action Sample -->
+        <li>
+          <h4 class="action">Run 5 miles</h4>
+          <input type="date">5/10</input>
+          <!-- we should do the cool input field animation -->
+          <input type="text" class="note" placeholder="Note:"></input>
+          <button class="delete-action"></button>
+        </li>
+        <!-- Action Format -->
+        <li>
+          <h4 class="action"></h4>
+          <!-- we should do the cool input field animation -->
+          <input type="text" class="note" placeholder="Note:"></input>
+          <button class="delete-action"></button>
+        </li>
+      </ul>
+    </section>
+    <!-- <section id="new-snippet">
       <form id="new-snippet--form">
         <input type="text" placeholder="Title" id="new-snippet--title">
         <div contenteditable placeholder="Code" id="new-snippet--code"></div>
         <input type="submit" id="new-snippet--submit" disabled>
       </form>
-    </section>
+    </section>  -->
 
     <section id="snippets"></section>
 
     <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
-    <script src="bundle.js"></script>
+    <script src="../main.bundle.js"></script>
   </body>
 </html>
