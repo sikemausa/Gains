@@ -49,12 +49,7 @@
 	const validateInputFields = __webpack_require__(176);
 	const renderSnippet = __webpack_require__(179);
 
-<<<<<<< HEAD
-	const Room = __webpack_require__(9);
-
-=======
 	const Room = __webpack_require__(181);
->>>>>>> 2662261303d85bb8eb7dc2873de855d580e689e1
 
 	const  {
 	  // $snippetsSection,
@@ -64,11 +59,7 @@
 	  // $newSnippetSubmit,
 	  $signInButton,
 	  $userInfo
-<<<<<<< HEAD
-	} = __webpack_require__(5);
-=======
 	} = __webpack_require__(177);
->>>>>>> 2662261303d85bb8eb7dc2873de855d580e689e1
 
 	const provider = new firebase.auth.GoogleAuthProvider();
 
@@ -32388,17 +32379,8 @@
 
 	'use strict';
 
-<<<<<<< HEAD
-	const $ = __webpack_require__(6);
-	const Action = __webpack_require__(11);
-
-=======
 	const $ = __webpack_require__(178);
-	// const Action = require('./lib/objects/action');
-	const consoleAction = __webpack_require__(183);
-
-	// consoleAction();
->>>>>>> 2662261303d85bb8eb7dc2873de855d580e689e1
+	const Action = __webpack_require__(183);
 
 	class Goal {
 	  constructor() {
@@ -32406,7 +32388,7 @@
 	  }
 	}
 
-	var goal = new Goal();
+	// let Goal = [];
 
 	//
 	// class Goal {
@@ -32455,7 +32437,6 @@
 
 	class Action {
 	  constructor(options) {
-<<<<<<< HEAD
 	    this.id = null;
 	    // this.scheduledTime = this.scheduled();
 	    // this.note = [],
@@ -32469,17 +32450,6 @@
 
 	  add() {
 	    goal.actions.push();
-=======
-	    this.startTime = null;
-	    // this.scheduledTime = this.scheduled();
-	    // this.note = [],
-	    // this.details
-	  }
-
-	  start(time = Date.now()) {
-	    this.startTime = time;
-	    return this.startTime;
->>>>>>> 2662261303d85bb8eb7dc2873de855d580e689e1
 	  }
 
 	  // scheduled(duration) {
