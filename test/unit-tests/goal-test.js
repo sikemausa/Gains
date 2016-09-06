@@ -19,6 +19,6 @@ describe('Goal', function() {
       goal.addAction();
       assert.equal(goal.actions.length, 2);
     });
-    it('should have a function called remove action that removes an action from the ', )
+    // it('should have a function called remove action that removes an action from the ', )
   });
 });

@@ -2,6 +2,7 @@
 // const assert = require('assert');
 const assert = require('chai').assert;
 const Action = require('../../lib/objects/action');
+const Goal = require('../../lib/objects/goal');
 
 describe('our test bundle', function() {
   it('should work', function() {
@@ -27,11 +28,18 @@ describe('Action', function() {
 
   context('action constructor', function(){
 
-    it('should return .startTime if .start is called', function() {
+    it('should return .id if start is called', function() {
       let action = new Action;
       let time = Date.now();
       action.start(time);
       assert.equal(action.startTime, action.start());
+    });
+
+    it('should add an action object onto the goal array', function() {
+      let goal = new Goal();
+      let action = new Action();
+      action.add();
+      assert.equal(goal.length, 1);
     });
   });
 });
