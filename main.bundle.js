@@ -50,33 +50,33 @@
 
 	const Room = __webpack_require__(9);
 
-	Room();
 
 	const  {
-	  $snippetsSection,
-	  $newSnippetForm,
-	  $newSnippetTitle,
-	  $newSnippetCode,
-	  $newSnippetSubmit,
+	  // $snippetsSection,
+	  // $newSnippetForm,
+	  // $newSnippetTitle,
+	  // $newSnippetCode,
+	  // $newSnippetSubmit,
 	  $signInButton,
 	  $userInfo
 	} = __webpack_require__(5);
+
 	const provider = new firebase.auth.GoogleAuthProvider();
 
-	$newSnippetTitle.on('keyup', validateInputFields);
-	$newSnippetCode.on('keyup', validateInputFields);
+	// $newSnippetTitle.on('keyup', validateInputFields);
+	// $newSnippetCode.on('keyup', validateInputFields);
 
-	$newSnippetForm.on('submit', (e) => {
-	  e.preventDefault();
-
-	  const title = $newSnippetTitle.val();
-	  const code = $newSnippetCode.text();
-
-	  $snippetsSection.append(renderSnippet(title, code));
-
-	  $newSnippetTitle.val('');
-	  $newSnippetCode.val('');
-	});
+	// $newSnippetForm.on('submit', (e) => {
+	//   e.preventDefault();
+	//
+	//   const title = $newSnippetTitle.val();
+	//   const code = $newSnippetCode.text();
+	//
+	//   $snippetsSection.append(renderSnippet(title, code));
+	//
+	//   $newSnippetTitle.val('');
+	//   $newSnippetCode.val('');
+	// });
 
 	let currentUser;
 
@@ -88,9 +88,9 @@
 	firebase.auth().onAuthStateChanged((user) => {
 	  currentUser = user;
 	  $signInButton.toggle(!currentUser);
-	  $newSnippetForm.toggle(!!currentUser);
+	  // $newSnippetForm.toggle(!!currentUser);
 
-	  console.log(user);
+	  // console.log(user);
 
 	  if (currentUser) {
 	    const {
@@ -105,11 +105,11 @@
 	});
 
 
-	const snippetsReference = firebase.database().ref().child('snippets');
-	  snippetsReference.on('value', (snapshot) => {
-	  const snippet = snapshot.val();
-	  console.log(snippet);
-	});
+	// const snippetsReference = firebase.database().ref().child('snippets');
+	//   snippetsReference.on('value', (snapshot) => {
+	//   const snippet = snapshot.val();
+	//   console.log(snippet);
+	// });
 
 
 /***/ },
@@ -749,20 +749,21 @@
 
 	const $ = __webpack_require__(6);
 
-	const $snippetsSection = $('#snippets');
-	const $newSnippetForm = $('#new-snippet--form');
-	const $newSnippetTitle = $('#new-snippet--title');
-	const $newSnippetCode = $('#new-snippet--code');
-	const $newSnippetSubmit = $('#new-snippet--submit');
 	const $signInButton = $('#sign-in');
 	const $userInfo = $('#user-info');
 
+	// const $snippetsSection = $('#snippets');
+	// const $newSnippetForm = $('#new-snippet--form');
+	// const $newSnippetTitle = $('#new-snippet--title');
+	// const $newSnippetCode = $('#new-snippet--code');
+	// const $newSnippetSubmit = $('#new-snippet--submit');
+
 	module.exports = {
-	  $snippetsSection,
-	  $newSnippetForm,
-	  $newSnippetTitle,
-	  $newSnippetCode,
-	  $newSnippetSubmit,
+	  // $snippetsSection,
+	  // $newSnippetForm,
+	  // $newSnippetTitle,
+	  // $newSnippetCode,
+	  // $newSnippetSubmit,
 	  $signInButton,
 	  $userInfo
 	};
@@ -10962,7 +10963,7 @@
 	// const Goal = require('./lib/objects/goal');
 	const consoleGoal = __webpack_require__(10);
 
-	consoleGoal();
+	// consoleGoal();
 
 	class Room {
 	  constructor() {
@@ -10981,13 +10982,13 @@
 	  }
 	}
 
-	// module.exports = Room;
+	module.exports = Room;
 
 
 
-	module.exports = function consoleRoom() {
-	  console.log('room');
-	};
+	// module.exports = function consoleRoom() {
+	//   console.log('room');
+	// };
 
 
 /***/ },
@@ -10997,47 +10998,52 @@
 	'use strict';
 
 	const $ = __webpack_require__(6);
-	// const Action = require('./lib/objects/action');
-	const consoleAction = __webpack_require__(11);
+	const Action = __webpack_require__(11);
 
-	consoleAction();
 
 	class Goal {
-	  constructor(options) {
-	    this.progress,
-	    this.title,
-	    this.category,
-	    this.actions = [],
-	    this.status = 'uncomplete' // complete or uncomplete
-	  }
-	  addAction() {
-	  }
-	  removeAction() {
-	  }
-	  displayAction() {
-	  }
-	  deleteAction() {
-	  }
-	  searchAction() {
-	  }
-	  setGoal() {
-	  }
-	  editGoal() {
-	  }
-	  updateGoalStatus() {
-	  }
-	  completeGoal() {
+	  constructor() {
+	    this.actions = [];
 	  }
 	}
 
+	var goal = new Goal();
 
-
-	// module.exports = Goal;
-
-
-	module.exports = function consoleGoal() {
-	  console.log('goal');
-	};
+	//
+	// class Goal {
+	//   constructor(options) {
+	//     this.progress ,
+	//     this.title,
+	//     this.category,
+	//     this.actions = [],
+	//     this.status = 'uncomplete' // complete or uncomplete
+	//   }
+	//   addAction() {
+	//     var action = new Action();
+	//     this.actions.push(action);
+	//   }
+	//   removeAction() {
+	//
+	//   }
+	//   displayAction() {
+	//   }
+	//   deleteAction() {
+	//   }
+	//   searchAction() {
+	//   }
+	//   setGoal() {
+	//   }
+	//   editGoal() {
+	//   }
+	//   updateGoalStatus() {
+	//   }
+	//   completeGoal() {
+	//   }
+	// }
+	//
+	//
+	//
+	module.exports = Goal;
 
 
 /***/ },
@@ -11049,27 +11055,38 @@
 	const $ = __webpack_require__(6);
 
 	class Action {
-	  constructor() {
-	    this.startTime,
-	    this.endTime,
-	    this.note = [],
-	    this.details
+	  constructor(options) {
+	    this.id = null;
+	    // this.scheduledTime = this.scheduled();
+	    // this.note = [],
+	    // this.details
 	  }
-	  startTime() {
-	  }
-	  endTime() {
-	  }
-	  addNote() {
-	  }
-	  editDetails() {
-	  }
-	}
 
-	module.exports = function consoleAction() {
-	    console.log('action');
-	  };
+	  start(time = Date.now()) {
+	    this.id = time;
+	    return this.id;
+	  }
+
+	  add() {
+	    goal.actions.push();
+	  }
+
+	  // scheduled(duration) {
+	  //   return this.scheduledTime + duration;
+	  // }
+
+	  // addNote() {
+	  // }
+	  // editDetails() {
+	  // }
+	}
 	//
-	// module.exports = Action;
+
+	// module.exports = function consoleAction() {
+	//     console.log('action');
+	//   };
+	// //
+	module.exports = Action;
 	// module.exports = consoleAction;
 
 
