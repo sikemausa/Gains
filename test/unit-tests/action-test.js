@@ -34,5 +34,11 @@ describe('Action', function() {
       action.start(time);
       assert.equal(action.id, action.start());
     });
+    it('should have a property category', function() {
+      let action = new Action;
+      let time = Date.now();
+      action.start(time);
+      assert.equal(action.id, action.start());
+    });
   });
 });
