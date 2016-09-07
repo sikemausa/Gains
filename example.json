@@ -1,0 +1,14 @@
+{ "goals":
+  [
+    {"goal one":
+      {
+        "actions": ["a", "b", "c"]
+      }
+    },
+    {"goal two":
+      {
+        "actions": ["d", "e", "f"]
+      }
+    }
+  ]
+}
