@@ -21606,8 +21606,7 @@
 	firebase.initializeApp(config);
 
 	exports.default = firebase;
-
-	var provider = new firebase.auth.GoogleAuthProvider();
+	var provider = exports.provider = new firebase.auth.GoogleAuthProvider();
 	// module.exports = {
 	//   firebase,
 	//   provider
