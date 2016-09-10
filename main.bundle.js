@@ -58,7 +58,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(178);
+	__webpack_require__(179);
 
 	(0, _reactDom.render)(_react2.default.createElement(_Application2.default, null), document.getElementById('application'));
 
@@ -21457,7 +21457,11 @@
 
 	var _SignIn2 = _interopRequireDefault(_SignIn);
 
-	var _UserInfo = __webpack_require__(177);
+	var _GoalRoom = __webpack_require__(177);
+
+	var _GoalRoom2 = _interopRequireDefault(_GoalRoom);
+
+	var _UserInfo = __webpack_require__(178);
 
 	var _UserInfo2 = _interopRequireDefault(_UserInfo);
 
@@ -21501,7 +21505,8 @@
 	        return _react2.default.createElement(
 	          'section',
 	          { className: 'Application logged-in' },
-	          _react2.default.createElement(_UserInfo2.default, null)
+	          _react2.default.createElement(_UserInfo2.default, { user: user }),
+	          _react2.default.createElement(_GoalRoom2.default, null)
 	        );
 	      }
 	      return _react2.default.createElement(
@@ -22207,6 +22212,98 @@
 	  value: true
 	});
 
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _firebase = __webpack_require__(173);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var GoalRoom = function (_Component) {
+	  _inherits(GoalRoom, _Component);
+
+	  function GoalRoom() {
+	    _classCallCheck(this, GoalRoom);
+
+	    var _this = _possibleConstructorReturn(this, (GoalRoom.__proto__ || Object.getPrototypeOf(GoalRoom)).call(this));
+
+	    _this.state = {
+	      goals: []
+	    };
+	    return _this;
+	  }
+
+	  _createClass(GoalRoom, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      this.reference.on('value', function (snapshot) {
+	        var goals = snapshot.val();
+	        console.log(goals);
+	        if (!goals) {
+	          _this2.state = _this2.setState({ goals: [] });
+	        }
+	        _this2.setState({
+	          goals: Object.entries(goals).map(function (_ref) {
+	            var _ref2 = _slicedToArray(_ref, 2);
+
+	            var key = _ref2[0];
+	            var value = _ref2[1];
+	            return Object.assign({ key: key }, value);
+	          })
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.reference.off();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'section',
+	        { className: 'GoalRoom' },
+	        'goalRoom'
+	      );
+	    }
+	  }, {
+	    key: 'reference',
+	    get: function get() {
+	      return _firebase2.default.database().ref('user-goals/' + this.props.uid);
+	    }
+	  }]);
+
+	  return GoalRoom;
+	}(_react.Component);
+
+	exports.default = GoalRoom;
+
+/***/ },
+/* 178 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
 	exports.default = function (_ref) {
 	  var user = _ref.user;
 
@@ -22257,16 +22354,16 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 178 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(179);
+	var content = __webpack_require__(180);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(181)(content, {});
+	var update = __webpack_require__(182)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -22283,10 +22380,10 @@
 	}
 
 /***/ },
-/* 179 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(180)();
+	exports = module.exports = __webpack_require__(181)();
 	// imports
 
 
@@ -22297,7 +22394,7 @@
 
 
 /***/ },
-/* 180 */
+/* 181 */
 /***/ function(module, exports) {
 
 	/*
@@ -22353,7 +22450,7 @@
 
 
 /***/ },
-/* 181 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
