@@ -22191,7 +22191,7 @@
 	          { onClick: function onClick() {
 	              return _firebase2.default.auth().signInWithPopup(_firebase.provider);
 	            } },
-	          'Sign In'
+	          'Get Swoll'
 	        )
 	      );
 	    }
@@ -22232,6 +22232,9 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	// import CreateGoal from './CreateGoal';
+	// import Goal from './Goal';
+
 	var GoalRoom = function (_Component) {
 	  _inherits(GoalRoom, _Component);
 
@@ -22253,7 +22256,6 @@
 
 	      this.reference.on('value', function (snapshot) {
 	        var goals = snapshot.val();
-	        console.log(goals);
 	        if (!goals) {
 	          _this2.state = _this2.setState({ goals: [] });
 	        }
@@ -22276,16 +22278,32 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      // const goals = this.state.goals.map((goal) => <Goal {...goal} reference={this.reference.child(goals.key)}/> );
+	      //
+	      // return(
+	      //   <section className="GoalRoom">
+	      //   GoalRoom
+	      //   </section>
+	      //
+
 	      return _react2.default.createElement(
 	        'section',
 	        { className: 'GoalRoom' },
-	        'goalRoom'
+	        '// ',
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          'Goal List (',
+	          this.props.uid,
+	          ')'
+	        ),
+	        _react2.default.createElement(CreateGoal, { reference: reference, title: title })
 	      );
 	    }
 	  }, {
 	    key: 'reference',
 	    get: function get() {
-	      return _firebase2.default.database().ref('user-goals/' + this.props.uid);
+	      return _firebase2.default.database().ref('goals/' + this.props.uid);
 	    }
 	  }]);
 
@@ -22337,7 +22355,7 @@
 	        { className: 'SignOut', onClick: function onClick() {
 	            return _firebase2.default.auth().signOut();
 	          } },
-	        'Give up on yourself'
+	        'Give Up'
 	      )
 	    )
 	  );
