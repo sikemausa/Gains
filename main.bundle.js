@@ -52,15 +52,15 @@
 
 	var _reactDom = __webpack_require__(34);
 
-	var _application = __webpack_require__(172);
+	var _Application = __webpack_require__(172);
 
-	var _application2 = _interopRequireDefault(_application);
+	var _Application2 = _interopRequireDefault(_Application);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(177);
+	__webpack_require__(178);
 
-	(0, _reactDom.render)(_react2.default.createElement(_application2.default, null), document.getElementById('application'));
+	(0, _reactDom.render)(_react2.default.createElement(_Application2.default, null), document.getElementById('application'));
 
 /***/ },
 /* 1 */
@@ -21445,17 +21445,21 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
 	var _firebase = __webpack_require__(173);
 
 	var _firebase2 = _interopRequireDefault(_firebase);
 
-	var _signIn = __webpack_require__(176);
+	var _react = __webpack_require__(1);
 
-	var _signIn2 = _interopRequireDefault(_signIn);
+	var _react2 = _interopRequireDefault(_react);
+
+	var _SignIn = __webpack_require__(176);
+
+	var _SignIn2 = _interopRequireDefault(_SignIn);
+
+	var _UserInfo = __webpack_require__(177);
+
+	var _UserInfo2 = _interopRequireDefault(_UserInfo);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21494,12 +21498,16 @@
 	      var user = this.state.user;
 
 	      if (user) {
-	        return _react2.default.createElement('section', { className: 'Application logged-in' });
+	        return _react2.default.createElement(
+	          'section',
+	          { className: 'Application logged-in' },
+	          _react2.default.createElement(_UserInfo2.default, null)
+	        );
 	      }
 	      return _react2.default.createElement(
 	        'section',
 	        { className: 'Application not-logged-in' },
-	        _react2.default.createElement('signIn', null)
+	        _react2.default.createElement(_SignIn2.default, null)
 	      );
 	    }
 	  }]);
@@ -21508,9 +21516,6 @@
 	}(_react.Component);
 
 	exports.default = Application;
-
-
-	module.exports = Application;
 
 /***/ },
 /* 173 */
@@ -22143,16 +22148,100 @@
 	  value: true
 	});
 
-	exports.default = function () {
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _firebase = __webpack_require__(173);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var SignIn = function (_Component) {
+	  _inherits(SignIn, _Component);
+
+	  function SignIn() {
+	    _classCallCheck(this, SignIn);
+
+	    return _possibleConstructorReturn(this, (SignIn.__proto__ || Object.getPrototypeOf(SignIn)).apply(this, arguments));
+	  }
+
+	  _createClass(SignIn, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'section',
+	        { className: 'SignIn' },
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: function onClick() {
+	              return _firebase2.default.auth().signInWithPopup(_firebase.provider);
+	            } },
+	          'Sign In'
+	        )
+	      );
+	    }
+	  }]);
+
+	  return SignIn;
+	}(_react.Component);
+
+	exports.default = SignIn;
+
+/***/ },
+/* 177 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	exports.default = function (_ref) {
+	  var user = _ref.user;
+
 	  return _react2.default.createElement(
 	    'section',
-	    { className: 'signIn' },
+	    { className: 'UserInformation' },
 	    _react2.default.createElement(
-	      'button',
-	      { onClick: function onClick() {
-	          return _firebase2.default.auth().signInWithPopup(_firebase.provider);
-	        } },
-	      'Sign In'
+	      'article',
+	      { className: 'UserPhoto' },
+	      _react2.default.createElement('img', { src: user.photoURL, alt: user.displayName + ' Photograph' })
+	    ),
+	    _react2.default.createElement(
+	      'article',
+	      { className: 'UserBio' },
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        user.displayName
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        user.email
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'article',
+	      { className: 'UserSignOut' },
+	      _react2.default.createElement(
+	        'button',
+	        { className: 'SignOut', onClick: function onClick() {
+	            return _firebase2.default.auth().signOut();
+	          } },
+	        'Give up on yourself'
+	      )
 	    )
 	  );
 	};
@@ -22168,16 +22257,16 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 177 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(178);
+	var content = __webpack_require__(179);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(180)(content, {});
+	var update = __webpack_require__(181)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -22194,10 +22283,10 @@
 	}
 
 /***/ },
-/* 178 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(179)();
+	exports = module.exports = __webpack_require__(180)();
 	// imports
 
 
@@ -22208,7 +22297,7 @@
 
 
 /***/ },
-/* 179 */
+/* 180 */
 /***/ function(module, exports) {
 
 	/*
@@ -22264,7 +22353,7 @@
 
 
 /***/ },
-/* 180 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
