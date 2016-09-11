@@ -58,7 +58,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(179);
+	__webpack_require__(181);
 
 	(0, _reactDom.render)(_react2.default.createElement(_Application2.default, null), document.getElementById('application'));
 
@@ -21461,7 +21461,7 @@
 
 	var _GoalRoom2 = _interopRequireDefault(_GoalRoom);
 
-	var _UserInfo = __webpack_require__(178);
+	var _UserInfo = __webpack_require__(180);
 
 	var _UserInfo2 = _interopRequireDefault(_UserInfo);
 
@@ -22212,8 +22212,6 @@
 	  value: true
 	});
 
-	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
@@ -22224,6 +22222,14 @@
 
 	var _firebase2 = _interopRequireDefault(_firebase);
 
+	var _CreateGoal = __webpack_require__(178);
+
+	var _CreateGoal2 = _interopRequireDefault(_CreateGoal);
+
+	var _Goal = __webpack_require__(179);
+
+	var _Goal2 = _interopRequireDefault(_Goal);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22231,9 +22237,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	// import CreateGoal from './CreateGoal';
-	// import Goal from './Goal';
 
 	var GoalRoom = function (_Component) {
 	  _inherits(GoalRoom, _Component);
@@ -22246,6 +22249,7 @@
 	    _this.state = {
 	      goals: []
 	    };
+	    _this.goalsArray = [];
 	    return _this;
 	  }
 
@@ -22254,19 +22258,12 @@
 	    value: function componentDidMount() {
 	      var _this2 = this;
 
-	      this.reference.on('value', function (snapshot) {
+	      this.reference.on('child_added', function (snapshot) {
 	        var goals = snapshot.val();
-	        if (!goals) {
-	          _this2.state = _this2.setState({ goals: [] });
-	        }
+	        var goalArr = { title: goals.title, dateAssigned: goals.dateAssigned, isCompleted: goals.isCompleted };
+	        _this2.goalsArray.push(goalArr);
 	        _this2.setState({
-	          goals: Object.entries(goals).map(function (_ref) {
-	            var _ref2 = _slicedToArray(_ref, 2);
-
-	            var key = _ref2[0];
-	            var value = _ref2[1];
-	            return Object.assign({ key: key }, value);
-	          })
+	          goals: _this2.goalsArray
 	        });
 	      });
 	    }
@@ -22276,44 +22273,192 @@
 	      this.reference.off();
 	    }
 	  }, {
+	    key: 'loadGoals',
+	    value: function loadGoals() {
+	      return this.state.goals.map(function (goal) {
+	        return _react2.default.createElement(_Goal2.default, { title: goal.title, key: goal.dateAssigned
+	        })
+	        // <div key={goal.dateAssigned}>
+	        //   <h1>{goal.title}</h1>
+	        // </div>
+	        ;
+	      });
+	    }
+
+	    // render() {
+	    //   <section className="RenderGoal">
+	    //     goal room
+	    //     // <Goal />
+	    //   </section>
+	    // }
+
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      // const goals = this.state.goals.map((goal) => <Goal {...goal} reference={this.reference.child(goals.key)}/> );
-	      //
-	      // return(
-	      //   <section className="GoalRoom">
-	      //   GoalRoom
-	      //   </section>
-	      //
-
 	      return _react2.default.createElement(
 	        'section',
 	        { className: 'GoalRoom' },
-	        '// ',
 	        _react2.default.createElement(
-	          'h3',
+	          'div',
 	          null,
-	          'Goal List (',
-	          this.props.uid,
-	          ')'
+	          this.loadGoals()
 	        ),
-	        _react2.default.createElement(CreateGoal, { reference: reference, title: title })
+	        '// ',
+	        _react2.default.createElement(_Goal2.default, { title: goal.title, key: goal.dateAssigned }),
+	        _react2.default.createElement(_CreateGoal2.default, { reference: this.reference })
 	      );
 	    }
 	  }, {
 	    key: 'reference',
 	    get: function get() {
-	      return _firebase2.default.database().ref('goals/' + this.props.uid);
+	      var currentUser = _firebase2.default.auth().currentUser.uid;
+	      return _firebase2.default.database().ref(currentUser + '/goals');
 	    }
 	  }]);
 
 	  return GoalRoom;
 	}(_react.Component);
 
+	// title={goal.title} key={goal.dateAssigned}
+
+
 	exports.default = GoalRoom;
 
 /***/ },
 /* 178 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _firebase = __webpack_require__(173);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	var _GoalRoom = __webpack_require__(177);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var CreateGoal = function (_Component) {
+	  _inherits(CreateGoal, _Component);
+
+	  function CreateGoal() {
+	    _classCallCheck(this, CreateGoal);
+
+	    var _this = _possibleConstructorReturn(this, (CreateGoal.__proto__ || Object.getPrototypeOf(CreateGoal)).call(this));
+
+	    _this.state = {
+	      title: ''
+	    };
+	    return _this;
+	  }
+
+	  _createClass(CreateGoal, [{
+	    key: 'createGoal',
+	    value: function createGoal(e) {
+	      e.preventDefault();
+	      var title = this.state.title;
+	      var reference = this.props.reference;
+
+
+	      reference.push({ title: title, isCompleted: false, dateAssigned: Date.now() });
+	      this.setState({ title: '' });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      return _react2.default.createElement(
+	        'form',
+	        { className: 'CreateGoal', onSubmit: this.createGoal.bind(this) },
+	        _react2.default.createElement('input', { placeholder: 'Goal',
+	          value: this.state.title,
+	          onChange: function onChange(e) {
+	            return _this2.setState({ title: e.target.value });
+	          }
+	        }),
+	        _react2.default.createElement('input', { type: 'submit', value: 'Create Goal' })
+	      );
+	    }
+	  }]);
+
+	  return CreateGoal;
+	}(_react.Component);
+
+	exports.default = CreateGoal;
+
+/***/ },
+/* 179 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	exports.default = function (_ref) {
+	  var title = _ref.title;
+	  var key = _ref.key;
+
+	  // return GoalRoom.state.goals.map(goal => {
+	  return _react2.default.createElement(
+	    'article',
+	    { className: 'GoalList' },
+	    _react2.default.createElement(
+	      'div',
+	      { key: goal.key },
+	      _react2.default.createElement(
+	        'h3',
+	        null,
+	        goal.title
+	      ),
+	      '// ',
+	      _react2.default.createElement(
+	        'div',
+	        null,
+	        GoalRoom.loadGoals()
+	      ),
+	      '// ',
+	      _react2.default.createElement(
+	        'button',
+	        { onClick: function onClick() {
+	            return reference.remove();
+	          } },
+	        '// Delete // '
+	      )
+	    )
+	  );
+	};
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _firebase = __webpack_require__(173);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22372,16 +22517,16 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 179 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(180);
+	var content = __webpack_require__(182);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(182)(content, {});
+	var update = __webpack_require__(184)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -22398,10 +22543,10 @@
 	}
 
 /***/ },
-/* 180 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(181)();
+	exports = module.exports = __webpack_require__(183)();
 	// imports
 
 
@@ -22412,7 +22557,7 @@
 
 
 /***/ },
-/* 181 */
+/* 183 */
 /***/ function(module, exports) {
 
 	/*
@@ -22468,7 +22613,7 @@
 
 
 /***/ },
-/* 182 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
