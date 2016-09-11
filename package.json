@@ -28,6 +28,7 @@
     "mocha-loader": "^0.7.1",
     "node-sass": "^3.9.0",
     "sass-loader": "^4.0.1",
+    "split-object": "^2.1.1",
     "style-loader": "^0.13.1",
     "wdio-dot-reporter": "0.0.6",
     "wdio-mocha-framework": "^0.4.0",
