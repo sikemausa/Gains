@@ -58,7 +58,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(181);
+	__webpack_require__(182);
 
 	(0, _reactDom.render)(_react2.default.createElement(_Application2.default, null), document.getElementById('application'));
 
@@ -21461,7 +21461,7 @@
 
 	var _GoalRoom2 = _interopRequireDefault(_GoalRoom);
 
-	var _UserInfo = __webpack_require__(180);
+	var _UserInfo = __webpack_require__(181);
 
 	var _UserInfo2 = _interopRequireDefault(_UserInfo);
 
@@ -22238,6 +22238,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var splitObject = __webpack_require__(180);
+
 	var GoalRoom = function (_Component) {
 	  _inherits(GoalRoom, _Component);
 
@@ -22249,21 +22251,26 @@
 	    _this.state = {
 	      goals: []
 	    };
-	    _this.goalsArray = [];
 	    return _this;
 	  }
 
 	  _createClass(GoalRoom, [{
+	    key: 'removeGoal',
+	    value: function removeGoal(uid) {
+	      this.reference.child(uid).remove();
+	    }
+	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var _this2 = this;
 
-	      this.reference.on('child_added', function (snapshot) {
+	      this.reference.on('value', function (snapshot) {
 	        var goals = snapshot.val();
-	        var goalArr = { title: goals.title, dateAssigned: goals.dateAssigned, isCompleted: goals.isCompleted };
-	        _this2.goalsArray.push(goalArr);
+	        goals = splitObject(goals).map(function (goal) {
+	          return Object.assign({ key: goal.key }, goal.value);
+	        });
 	        _this2.setState({
-	          goals: _this2.goalsArray
+	          goals: goals
 	        });
 	      });
 	    }
@@ -22275,37 +22282,36 @@
 	  }, {
 	    key: 'loadGoals',
 	    value: function loadGoals() {
+	      var _this3 = this;
+
+	      var currentReference = this.reference;
 	      return this.state.goals.map(function (goal) {
-	        return _react2.default.createElement(_Goal2.default, { title: goal.title, key: goal.dateAssigned
-	        })
-	        // <div key={goal.dateAssigned}>
-	        //   <h1>{goal.title}</h1>
-	        // </div>
-	        ;
+	        var currentTitle = goal.title;
+	        var currentKey = goal.key;
+	        return _react2.default.createElement(
+	          'section',
+	          { key: currentKey },
+	          _react2.default.createElement(_Goal2.default, {
+	            removeGoal: _this3.removeGoal,
+	            dataId: currentKey,
+	            reference: currentReference,
+	            title: currentTitle
+	          })
+	        );
 	      });
 	    }
-
-	    // render() {
-	    //   <section className="RenderGoal">
-	    //     goal room
-	    //     // <Goal />
-	    //   </section>
-	    // }
-
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'section',
 	        { className: 'GoalRoom' },
+	        _react2.default.createElement(_CreateGoal2.default, { reference: this.reference }),
 	        _react2.default.createElement(
 	          'div',
 	          null,
 	          this.loadGoals()
-	        ),
-	        '// ',
-	        _react2.default.createElement(_Goal2.default, { title: goal.title, key: goal.dateAssigned }),
-	        _react2.default.createElement(_CreateGoal2.default, { reference: this.reference })
+	        )
 	      );
 	    }
 	  }, {
@@ -22318,9 +22324,6 @@
 
 	  return GoalRoom;
 	}(_react.Component);
-
-	// title={goal.title} key={goal.dateAssigned}
-
 
 	exports.default = GoalRoom;
 
@@ -22413,39 +22416,7 @@
 	  value: true
 	});
 
-	exports.default = function (_ref) {
-	  var title = _ref.title;
-	  var key = _ref.key;
-
-	  // return GoalRoom.state.goals.map(goal => {
-	  return _react2.default.createElement(
-	    'article',
-	    { className: 'GoalList' },
-	    _react2.default.createElement(
-	      'div',
-	      { key: goal.key },
-	      _react2.default.createElement(
-	        'h3',
-	        null,
-	        goal.title
-	      ),
-	      '// ',
-	      _react2.default.createElement(
-	        'div',
-	        null,
-	        GoalRoom.loadGoals()
-	      ),
-	      '// ',
-	      _react2.default.createElement(
-	        'button',
-	        { onClick: function onClick() {
-	            return reference.remove();
-	          } },
-	        '// Delete // '
-	      )
-	    )
-	  );
-	};
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
 
@@ -22457,8 +22428,93 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Goal = function (_Component) {
+	  _inherits(Goal, _Component);
+
+	  function Goal() {
+	    _classCallCheck(this, Goal);
+
+	    return _possibleConstructorReturn(this, (Goal.__proto__ || Object.getPrototypeOf(Goal)).apply(this, arguments));
+	  }
+
+	  _createClass(Goal, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      var dataId = this.props.dataId;
+
+
+	      return _react2.default.createElement(
+	        'article',
+	        { accessKey: dataId, className: 'GoalList' },
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          this.props.title
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: function onClick() {
+	              _this2.props.removeGoal(dataId);
+	            } },
+	          'Delete'
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Goal;
+	}(_react.Component);
+
+	exports.default = Goal;
+
 /***/ },
 /* 180 */
+/***/ function(module, exports) {
+
+	'use strict'
+
+	module.exports = split
+	module.exports.split = split
+	module.exports.join = join
+
+	function split (obj, opts) {
+	  opts = opts || {}
+	  var keyName = opts.key || 'key'
+	  var valueName = opts.value || 'value'
+	  var items = []
+	  for (var key in obj) {
+	    if (!Object.prototype.hasOwnProperty.call(obj, key)) continue
+	    var kv = {}
+	    kv[keyName] = key
+	    kv[valueName] = obj[key]
+	    items.push(kv)
+	  }
+	  return items
+	}
+
+	function join (arr, opts) {
+	  opts = opts || {}
+	  var keyName = opts.key || 'key'
+	  var valueName = opts.value || 'value'
+	  var obj = {}
+	  for (var i = 0; i < arr.length; i++) {
+	    var item = arr[i]
+	    obj[item[keyName]] = item[valueName]
+	  }
+	  return obj
+	}
+
+
+/***/ },
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22517,16 +22573,16 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 181 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(182);
+	var content = __webpack_require__(183);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(184)(content, {});
+	var update = __webpack_require__(185)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -22543,10 +22599,10 @@
 	}
 
 /***/ },
-/* 182 */
+/* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(183)();
+	exports = module.exports = __webpack_require__(184)();
 	// imports
 
 
@@ -22557,7 +22613,7 @@
 
 
 /***/ },
-/* 183 */
+/* 184 */
 /***/ function(module, exports) {
 
 	/*
@@ -22613,7 +22669,7 @@
 
 
 /***/ },
-/* 184 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
