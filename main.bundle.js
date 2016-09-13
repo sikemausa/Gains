@@ -58,7 +58,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(182);
+	__webpack_require__(184);
 
 	(0, _reactDom.render)(_react2.default.createElement(_Application2.default, null), document.getElementById('application'));
 
@@ -21461,7 +21461,7 @@
 
 	var _GoalRoom2 = _interopRequireDefault(_GoalRoom);
 
-	var _UserInfo = __webpack_require__(181);
+	var _UserInfo = __webpack_require__(183);
 
 	var _UserInfo2 = _interopRequireDefault(_UserInfo);
 
@@ -22238,7 +22238,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var splitObject = __webpack_require__(180);
+	var splitObject = __webpack_require__(182);
 
 	var GoalRoom = function (_Component) {
 	  _inherits(GoalRoom, _Component);
@@ -22258,6 +22258,8 @@
 	    key: 'removeGoal',
 	    value: function removeGoal(uid) {
 	      this.reference.child(uid).remove();
+	      var currentUser = _firebase2.default.auth().currentUser.uid;
+	      _firebase2.default.database().ref(currentUser + '/' + uid).remove();
 	    }
 	  }, {
 	    key: 'componentDidMount',
@@ -22296,7 +22298,14 @@
 	            dataId: currentKey,
 	            reference: currentReference,
 	            title: currentTitle
-	          })
+	          }),
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: function onClick() {
+	                _this3.removeGoal(currentKey);
+	              } },
+	            'Delete'
+	          )
 	        );
 	      });
 	    }
@@ -22318,7 +22327,7 @@
 	    key: 'reference',
 	    get: function get() {
 	      var currentUser = _firebase2.default.auth().currentUser.uid;
-	      return _firebase2.default.database().ref(currentUser + '/goals');
+	      return _firebase2.default.database().ref(currentUser + '/allGoals');
 	    }
 	  }]);
 
@@ -22426,6 +22435,14 @@
 
 	var _firebase2 = _interopRequireDefault(_firebase);
 
+	var _CreateAction = __webpack_require__(180);
+
+	var _CreateAction2 = _interopRequireDefault(_CreateAction);
+
+	var _Action = __webpack_require__(181);
+
+	var _Action2 = _interopRequireDefault(_Action);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22434,39 +22451,108 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var splitObject = __webpack_require__(182);
+
 	var Goal = function (_Component) {
 	  _inherits(Goal, _Component);
 
-	  function Goal() {
+	  function Goal(props) {
 	    _classCallCheck(this, Goal);
 
-	    return _possibleConstructorReturn(this, (Goal.__proto__ || Object.getPrototypeOf(Goal)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (Goal.__proto__ || Object.getPrototypeOf(Goal)).call(this, props));
+
+	    _this.state = {
+	      actions: [],
+	      title: '',
+	      isCompleted: false
+	    };
+	    return _this;
 	  }
 
 	  _createClass(Goal, [{
-	    key: 'render',
-	    value: function render() {
+	    key: 'removeAction',
+	    value: function removeAction(uid) {
+	      this.reference.child(uid).remove();
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
 	      var _this2 = this;
 
+	      this.reference.on('value', function (snapshot) {
+	        var actions = snapshot.val();
+	        actions = splitObject(actions).map(function (action) {
+	          return Object.assign({ key: action.key }, action.value);
+	        });
+	        _this2.setState({
+	          actions: actions
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.reference.off();
+	    }
+	  }, {
+	    key: 'loadActions',
+	    value: function loadActions() {
+	      var _this3 = this;
+
+	      return this.state.actions.map(function (action) {
+	        return _react2.default.createElement(
+	          'section',
+	          { key: action.key },
+	          _react2.default.createElement(_Action2.default, {
+	            removeAction: _this3.removeAction,
+	            dataId: action.key,
+	            reference: _this3.reference,
+	            title: action.title,
+	            completed: action.isCompleted
+	          })
+	        );
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
 	      var dataId = this.props.dataId;
 
 
 	      return _react2.default.createElement(
-	        'article',
-	        { accessKey: dataId, className: 'GoalList' },
+	        'section',
+	        { className: 'ActionRoom' },
 	        _react2.default.createElement(
-	          'h3',
-	          null,
-	          this.props.title
+	          'article',
+	          { accessKey: dataId, className: 'ActionList' },
+	          _react2.default.createElement(
+	            'h3',
+	            null,
+	            this.props.title
+	          ),
+	          _react2.default.createElement(
+	            'h3',
+	            null,
+	            this.props.isCompleted
+	          )
 	        ),
 	        _react2.default.createElement(
-	          'button',
-	          { onClick: function onClick() {
-	              _this2.props.removeGoal(dataId);
-	            } },
-	          'Delete'
+	          'article',
+	          { className: 'ActionRoom' },
+	          _react2.default.createElement(_CreateAction2.default, { reference: this.reference, accessKey: dataId }),
+	          _react2.default.createElement(
+	            'div',
+	            null,
+	            this.loadActions()
+	          )
 	        )
 	      );
+	    }
+	  }, {
+	    key: 'reference',
+	    get: function get() {
+	      var currentUser = _firebase2.default.auth().currentUser.uid;
+	      return _firebase2.default.database().ref(currentUser + '/' + this.props.dataId);
 	    }
 	  }]);
 
@@ -22477,6 +22563,144 @@
 
 /***/ },
 /* 180 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _firebase = __webpack_require__(173);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var CreateAction = function (_Component) {
+	  _inherits(CreateAction, _Component);
+
+	  function CreateAction() {
+	    _classCallCheck(this, CreateAction);
+
+	    var _this = _possibleConstructorReturn(this, (CreateAction.__proto__ || Object.getPrototypeOf(CreateAction)).call(this));
+
+	    _this.state = {
+	      title: '',
+	      isCompleted: false
+	    };
+	    return _this;
+	  }
+
+	  _createClass(CreateAction, [{
+	    key: 'createAction',
+	    value: function createAction(e) {
+	      e.preventDefault();
+	      var title = this.state.title;
+	      var accessKey = this.props.accessKey;
+
+	      var currentUser = _firebase2.default.auth().currentUser.uid;
+	      var reference = _firebase2.default.database().ref(currentUser + '/' + accessKey);
+	      reference.push({ title: title });
+	      this.setState({ title: title });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      return _react2.default.createElement(
+	        'form',
+	        { className: 'CreateAction', onSubmit: this.createAction.bind(this) },
+	        _react2.default.createElement('input', { placeholder: 'Action',
+	          value: this.state.title,
+	          onChange: function onChange(e) {
+	            return _this2.setState({ title: e.target.value });
+	          }
+	        }),
+	        _react2.default.createElement('input', { type: 'submit', value: 'Create Action' })
+	      );
+	    }
+	  }]);
+
+	  return CreateAction;
+	}(_react.Component);
+
+	exports.default = CreateAction;
+
+/***/ },
+/* 181 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _firebase = __webpack_require__(173);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Action = function (_Component) {
+	  _inherits(Action, _Component);
+
+	  function Action() {
+	    _classCallCheck(this, Action);
+
+	    return _possibleConstructorReturn(this, (Action.__proto__ || Object.getPrototypeOf(Action)).apply(this, arguments));
+	  }
+
+	  _createClass(Action, [{
+	    key: 'render',
+	    value: function render() {
+	      var dataId = this.props.dataId;
+
+	      return _react2.default.createElement(
+	        'article',
+	        { accessKey: dataId, className: 'ActionList' },
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          this.props.title
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Action;
+	}(_react.Component);
+
+	exports.default = Action;
+
+/***/ },
+/* 182 */
 /***/ function(module, exports) {
 
 	'use strict'
@@ -22514,7 +22738,7 @@
 
 
 /***/ },
-/* 181 */
+/* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22573,16 +22797,16 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 182 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(183);
+	var content = __webpack_require__(185);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(185)(content, {});
+	var update = __webpack_require__(187)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -22599,10 +22823,10 @@
 	}
 
 /***/ },
-/* 183 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(184)();
+	exports = module.exports = __webpack_require__(186)();
 	// imports
 
 
@@ -22613,7 +22837,7 @@
 
 
 /***/ },
-/* 184 */
+/* 186 */
 /***/ function(module, exports) {
 
 	/*
@@ -22669,7 +22893,7 @@
 
 
 /***/ },
-/* 185 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
