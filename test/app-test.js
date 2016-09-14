@@ -12,7 +12,4 @@ describe('application.js',function(){
     const wrapper = shallow(<Application />);
     expect(wrapper.contains(<GoalRoom />)).to.equal(true);
   });
-
-
-
 });
