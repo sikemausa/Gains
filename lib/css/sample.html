@@ -1,0 +1,77 @@
+
+
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Gains</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <section id="application">
+      <section className="Application logged-in">
+        <section className="UserInformation">
+
+          <article className="UserPhoto">
+            <img src={user.photoURL} alt={`${user.displayName} Photograph`}/>
+          </article>
+
+          <article className="UserBio">
+            <p>{user.displayName}</p>
+            <p>{user.email}</p>
+          </article>
+
+          <article className="UserSignOut">
+            <button className="SignOut" onClick={() => firebase.auth().signOut()}>
+              Give Up
+            </button>
+          </article>
+
+        </section>
+
+        <section className="GoalRoom">
+          <form className="CreateGoal">
+            <input/>
+            <input type="submit" value="Create Goal"/>
+          </form>
+          <div>
+            <section key={currentKey}>
+              <section className="ActionRoom">
+                <article className="ActionList">
+                  <h3>{this.props.title}</h3>
+                </article>
+                <article className="ActionRoom">
+                  <form className="CreateAction">
+                    <input type="text"/>
+                    <input type="submit" value="Create Action" />
+                  </form>
+                  <div>
+                    <section>
+                      <section className="ActionRoom">
+                        <article className="ActionList">
+                          <h3>
+                            {this.state.title}
+                          </h3>
+                          <button>Delete</button>
+                          <button>Complete</button>
+                        </article>
+                      </section>
+                    </section>
+                  </div>
+                </article>
+              </section>
+              <button>Delete</button>
+            </section>
+          </div>
+        </section>
+      </section>
+
+
+    </section>
+
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+    <script src="../main.bundle.js"></script>
+  </body>
+</html>

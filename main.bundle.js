@@ -22795,23 +22795,16 @@
 	  return _react2.default.createElement(
 	    'section',
 	    { className: 'UserInformation' },
-	    _react2.default.createElement(
-	      'article',
-	      { className: 'UserPhoto' },
-	      _react2.default.createElement('img', { src: user.photoURL, alt: user.displayName + ' Photograph' })
-	    ),
+	    _react2.default.createElement('article', { className: 'UserPhoto' }),
 	    _react2.default.createElement(
 	      'article',
 	      { className: 'UserBio' },
 	      _react2.default.createElement(
 	        'p',
 	        null,
-	        user.displayName
-	      ),
-	      _react2.default.createElement(
-	        'p',
-	        null,
-	        user.email
+	        'Hello ',
+	        user.displayName,
+	        ', ready to kick butt today?'
 	      )
 	    ),
 	    _react2.default.createElement(
@@ -22873,7 +22866,7 @@
 
 
 	// module
-	exports.push([module.id, "/* http://meyerweb.com/eric/tools/css/reset/\n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe,\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\na, abbr, acronym, address, big, cite, code,\ndel, dfn, em, img, ins, kbd, q, s, samp,\nsmall, strike, strong, sub, sup, tt, var,\nb, u, i, center,\ndl, dt, dd, ol, ul, li,\nfieldset, form, label, legend,\ntable, caption, tbody, tfoot, thead, tr, th, td,\narticle, aside, canvas, details, embed,\nfigure, figcaption, footer, header, hgroup,\nmenu, nav, output, ruby, section, summary,\ntime, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  vertical-align: baseline; }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure,\nfooter, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after,\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\nbody {\n  background-color: #3B596A; }\n\nbutton {\n  background: none;\n  border: 2px solid #e0e0e0; }\n\ninput {\n  background: none;\n  border: 2px solid #e0e0e0; }\n", ""]);
+	exports.push([module.id, "/* http://meyerweb.com/eric/tools/css/reset/\n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe,\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\na, abbr, acronym, address, big, cite, code,\ndel, dfn, em, img, ins, kbd, q, s, samp,\nsmall, strike, strong, sub, sup, tt, var,\nb, u, i, center,\ndl, dt, dd, ol, ul, li,\nfieldset, form, label, legend,\ntable, caption, tbody, tfoot, thead, tr, th, td,\narticle, aside, canvas, details, embed,\nfigure, figcaption, footer, header, hgroup,\nmenu, nav, output, ruby, section, summary,\ntime, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  vertical-align: baseline; }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure,\nfooter, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after,\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\nbody {\n  background-color: #3B596A; }\n\nbutton {\n  background: none;\n  border: 2px solid #e0e0e0; }\n\ninput {\n  background: none;\n  border: 2px solid #e0e0e0; }\n\nnav {\n  width: 100%;\n  height: 10vh;\n  font-family: \"Raleway\", sans-serif;\n  font-size: 3em;\n  background-color: pink; }\n\n.main-title {\n  display: inline-block;\n  right: 0;\n  background-color: blue; }\n\n.main-menu {\n  padding: 30px;\n  display: inline-block;\n  background: url(/img/menu.svg) no-repeat; }\n\n.UserInformation {\n  background-color: green;\n  width: 100%;\n  height: 5vh;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: flex-end;\n  font-family: \"Raleway\", sans-serif; }\n\n.UserBio {\n  background-color: orange; }\n\n#application {\n  height: 100vh;\n  width: 100vw;\n  background-color: red; }\n\n.GoalRoom {\n  background-color: orange;\n  height: 100%;\n  width: 100%; }\n", ""]);
 
 	// exports
 

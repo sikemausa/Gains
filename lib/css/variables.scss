@@ -1,0 +1,19 @@
+$color-main: #3B596A;
+$color-highlight: #ECDB60;
+$color-highlight-two: #B7EC60;
+$color-compliment-one: #4DBA9E;
+$color-compliment-two: #4F8A8A;
+$color-compliment-three: #FFFFFF;
+
+$font-main: 'Roboto', sans-serif;
+
+@mixin shadow() {
+  -moz-box-shadow: 0px 10px 30px 0px #000000;
+  -webkit-box-shadow: 0px 10px 30px 0px #000000;
+  box-shadow: 0px 10px 30px 0px #000000;
+}
+
+@mixin liniar-gradiant() {
+  background-image: linear-rgradient( 90 deg, $color-compliment-three, $color-main
+  );
+}
