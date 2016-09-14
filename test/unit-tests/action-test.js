@@ -1,8 +1,8 @@
 'use strict';
 // const assert = require('assert');
 const assert = require('chai').assert;
-const Action = require('../../lib/objects/action');
-const Goal = require('../../lib/objects/goal');
+const Action = require('../../lib/components/Action');
+const Goal = require('../../lib/components/Goal');
 
 describe('our test bundle', function() {
   it('should work', function() {
