@@ -1,0 +1,11 @@
+@import 'reset';
+@import 'General';
+@import 'SignIn';
+@import 'GoalRoom';
+@import 'main';
+
+.GoalRoom {
+  background-color: red;
+  height: 100%;
+  width: 100%;
+}
