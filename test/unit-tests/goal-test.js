@@ -2,7 +2,7 @@
 
 // const assert = require('assert');
 const assert = require('chai').assert;
-const Goal = require('../../lib/objects/goal');
+const Goal = require('../../lib/components/goal');
 
 describe('Goal', function() {
   context('goal constructor', function() {

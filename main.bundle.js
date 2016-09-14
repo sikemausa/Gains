@@ -60,6 +60,7 @@
 
 	__webpack_require__(184);
 
+
 	(0, _reactDom.render)(_react2.default.createElement(_Application2.default, null), document.getElementById('application'));
 
 /***/ },
@@ -21522,6 +21523,9 @@
 
 	exports.default = Application;
 
+
+	module.exports = Application;
+
 /***/ },
 /* 173 */
 /***/ function(module, exports, __webpack_require__) {
@@ -22336,6 +22340,8 @@
 
 	exports.default = GoalRoom;
 
+	module.exports = GoalRoom;
+
 /***/ },
 /* 178 */
 /***/ function(module, exports, __webpack_require__) {
@@ -22470,11 +22476,6 @@
 	  }
 
 	  _createClass(Goal, [{
-	    key: 'removeAction',
-	    value: function removeAction(uid) {
-	      this.reference.child(uid).remove();
-	    }
-	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var _this2 = this;
@@ -22504,11 +22505,10 @@
 	          'section',
 	          { key: action.key },
 	          _react2.default.createElement(_Action2.default, {
-	            removeAction: _this3.removeAction,
-	            dataId: action.key,
-	            reference: _this3.reference,
+	            reference: _this3.reference.child(action.key),
+	            actionUid: action.key,
 	            title: action.title,
-	            completed: action.isCompleted
+	            actionCompleted: action.isCompleted
 	          })
 	        );
 	      });
@@ -22529,17 +22529,15 @@
 	            'h3',
 	            null,
 	            this.props.title
-	          ),
-	          _react2.default.createElement(
-	            'h3',
-	            null,
-	            this.props.isCompleted
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'article',
 	          { className: 'ActionRoom' },
-	          _react2.default.createElement(_CreateAction2.default, { reference: this.reference, accessKey: dataId }),
+	          _react2.default.createElement(_CreateAction2.default, {
+	            reference: this.reference,
+	            accessKey: dataId
+	          }),
 	          _react2.default.createElement(
 	            'div',
 	            null,
@@ -22613,7 +22611,7 @@
 
 	      var currentUser = _firebase2.default.auth().currentUser.uid;
 	      var reference = _firebase2.default.database().ref(currentUser + '/' + accessKey);
-	      reference.push({ title: title });
+	      reference.push({ title: title, isCompleted: false, isEditing: false });
 	      this.setState({ title: title });
 	    }
 	  }, {
@@ -22671,26 +22669,70 @@
 	var Action = function (_Component) {
 	  _inherits(Action, _Component);
 
-	  function Action() {
+	  function Action(props) {
 	    _classCallCheck(this, Action);
 
-	    return _possibleConstructorReturn(this, (Action.__proto__ || Object.getPrototypeOf(Action)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (Action.__proto__ || Object.getPrototypeOf(Action)).call(this, props));
+
+	    _this.state = {
+	      title: _this.props.title,
+	      isCompleted: false,
+	      isEditing: false
+	    };
+	    return _this;
 	  }
 
 	  _createClass(Action, [{
 	    key: 'render',
 	    value: function render() {
-	      var dataId = this.props.dataId;
+	      var _this2 = this;
 
-	      return _react2.default.createElement(
-	        'article',
-	        { accessKey: dataId, className: 'ActionList' },
-	        _react2.default.createElement(
-	          'h3',
-	          null,
-	          this.props.title
-	        )
-	      );
+	      var actionUid = this.props.actionUid;
+
+	      if (this.state.isEditing) {
+	        return _react2.default.createElement('input', {
+	          onChange: function onChange(e) {
+	            return _this2.setState({ title: e.target.value });
+	          },
+	          value: this.state.title,
+	          onBlur: function onBlur(e) {
+	            _this2.setState({ isEditing: false });
+	            _this2.props.reference.set({ title: _this2.state.title });
+	          }
+	        });
+	      } else {
+	        return _react2.default.createElement(
+	          'section',
+	          { className: 'ActionRoom' },
+	          _react2.default.createElement(
+	            'article',
+	            { accessKey: actionUid, className: 'ActionList' },
+	            _react2.default.createElement(
+	              'h3',
+	              { onClick: function onClick() {
+	                  return _this2.setState({ isEditing: true });
+	                } },
+	              this.state.title
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { onClick: function onClick() {
+	                  return _this2.props.reference.remove();
+	                } },
+	              'Delete'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { onClick: function onClick() {
+	                  _this2.setState({ isCompleted: true });
+	                  _this2.props.reference.update({ isCompleted: _this2.state.isCompleted });
+	                }
+	              },
+	              'Complete'
+	            )
+	          )
+	        );
+	      }
 	    }
 	  }]);
 
@@ -22812,8 +22854,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../node_modules/css-loader/index.js!./style.css", function() {
-				var newContent = require("!!./../node_modules/css-loader/index.js!./style.css");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./main.scss", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./main.scss");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -22831,7 +22873,7 @@
 
 
 	// module
-	exports.push([module.id, ":root {\n  --dark-gray: #333745;\n  --hot-pink: #E63462;\n  --orange: #FE5F55;\n  --light-green: #C7EFCF;\n  --pale-green: #EEF5DB;\n}\n\n*, html, body {\n  box-sizing: border-box;\n}\n\nbody {\n  font: menu;\n  color: var(--dark-gray);\n}\n\nheader {\n  text-align: center;\n}\n\n#new-snippet--form {\n  display: none;\n}\n\n#sign-in {\n  display: block;\n  margin: 1em auto;\n  width: 200px;\n  padding: 10px;\n  border: 4px solid var(--hot-pink);\n  background-color: var(--hot-pink);\n}\n\n#sign-in:hover {\n  background-color: var(--orange);\n}\n\n#sign-in:active {\n  border-color: var(--light-green);\n}\n\n#sign-in:focus {\n  outline: none;\n}\n\n#new-snippet--title, #new-snippet--code, #new-snippet--submit {\n  border: none;\n  background-color: var(--pale-green);\n  display: block;\n  width: 100vw;\n  margin-bottom: 1em;\n  font-size: 1.4em;\n  padding: 1em;\n}\n\n#new-snippet--code {\n  font-family: monospace;\n}\n\n#new-snippet--submit {\n  background-color: var(--light-green);\n  border: 2px solid var(--orange);\n  transition: border 0.5s;\n}\n\n#new-snippet--submit:disabled {\n  border-color: var(--pale-green);\n}\n\n#snippets {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: space-around;\n}\n\n.snippet {\n  width: 300px;\n  padding: 1em;\n  margin-bottom: 2em;\n  border: 1px solid var(--hot-pink);\n}\n\npre {\n  width: 100%;\n  height: 200px;\n  overflow: scroll;\n  background-color: var(--pale-green);\n  border: 1px solid var(--light-green);\n}\n", ""]);
+	exports.push([module.id, "/* http://meyerweb.com/eric/tools/css/reset/\n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe,\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\na, abbr, acronym, address, big, cite, code,\ndel, dfn, em, img, ins, kbd, q, s, samp,\nsmall, strike, strong, sub, sup, tt, var,\nb, u, i, center,\ndl, dt, dd, ol, ul, li,\nfieldset, form, label, legend,\ntable, caption, tbody, tfoot, thead, tr, th, td,\narticle, aside, canvas, details, embed,\nfigure, figcaption, footer, header, hgroup,\nmenu, nav, output, ruby, section, summary,\ntime, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  vertical-align: baseline; }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure,\nfooter, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after,\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\nbody {\n  background-color: #3B596A; }\n\nbutton {\n  background: none;\n  border: 2px solid #e0e0e0; }\n\ninput {\n  background: none;\n  border: 2px solid #e0e0e0; }\n", ""]);
 
 	// exports
 

@@ -1,3 +1,3 @@
-require('./action-test');
-require('./goal-test');
-require('./room-test');
+// require('./action-test');
+// require('./goal-test');
+// require('./room-test');
