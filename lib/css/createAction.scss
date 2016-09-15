@@ -5,7 +5,7 @@
   .CreateAction {
     height: 20vh;
     widows: 100%;
-    background-color: $color-highlight-two;
+    background-color: darken($color-compliment-one, 16%);
     @include shadow;
     font-family: $font-main;
 

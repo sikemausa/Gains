@@ -13,21 +13,25 @@
 }
 
 .activity {
+  @include action-gradient($color-highlight);
   @include action-style;
   background-color: $color-highlight;
 }
 
 .nutrition {
+  @include action-gradient($color-hightlight-three);
   @include action-style;
   background-color: $color-hightlight-three;
 }
 
 .recovery {
+  @include action-gradient($color-compliment-one);
   @include action-style;
   background-color: $color-compliment-one;
 }
 
 .personal {
+  @include action-gradient($color-compliment-two);
   @include action-style;
   background-color: $color-compliment-two;
   color: $color-highlight;
@@ -38,10 +42,6 @@
   position: absolute;
   top: 0px;
   margin-left: 0;
-<<<<<<< HEAD
-=======
-  z-index: 0;
->>>>>>> master
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -67,13 +67,6 @@
   }
 }
 
-.ActEditInput {
- padding-left: 7vw;
- padding-top: 10px;
- font-family: $font-main;
- z-index: 3;
-}
-
 .ActionComplete {
   background: url(/lib/css/img/check-dark.svg) no-repeat;
   background-position: center;
@@ -97,4 +90,5 @@
   padding-left: 7vw;
   padding-top: 10px;
   font-family: $font-main;
+  z-index: 3;
 }

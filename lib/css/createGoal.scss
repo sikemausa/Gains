@@ -2,7 +2,7 @@
 
 
 #application {
-  background-color: $color-main;
+  background-color: $color-compliment-two-dark;
   height: 100%;
   width: 100%;
 }
@@ -11,7 +11,7 @@
   .CreateGoal {
     height: 20vh;
     widows: 100%;
-    background-color: $color-highlight;
+    background-color: darken($color-highlight-two, 3%);
     @include shadow;
 
     display: flex;

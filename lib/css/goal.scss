@@ -1,16 +1,16 @@
 @import 'variables';
 
-.goalContainer {
+.GoalRoom {
+  background-color: $color-main;
 }
 
 .Goal{
   height: 50px;
   width: 100%;
-  background-color: $color-compliment-two-dark;
+  background-color: $color-main;
   font-family: $font-main;
   color: $color-highlight-two;
   font-size: 1.2em;
-  margin-top: 40px;
 
   display: flex;
   justify-content: space-between;

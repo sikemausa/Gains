@@ -1,0 +1,9 @@
+@import 'variables';
+
+body {
+ background-color: $color-compliment-two-dark;
+}
+
+button {
+  @include general-button-style;
+}
