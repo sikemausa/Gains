@@ -22324,8 +22324,7 @@
 	          _react2.default.createElement(_Goal2.default, {
 	            dataId: currentKey,
 	            reference: currentReference,
-	            title: currentTitle
-	          }),
+	            title: currentTitle }),
 	          _react2.default.createElement(
 	            'button',
 	            { onClick: function onClick() {
@@ -22345,33 +22344,33 @@
 	      return _react2.default.createElement(
 	        'section',
 	        { className: 'GoalRoom' },
-	        _react2.default.createElement('input', {
-	          className: 'search',
-	          onChange: function onChange(event) {
-	            _this4.setState({ search: event.target.value.toLowerCase() });
-	          },
-	          value: this.state.search
-	        }),
-	        _react2.default.createElement(
-	          'button',
-	          {
-	            onClick: function onClick() {
-	              return _this4.handleSearchInput();
-	            }
-	          },
-	          'Search'
-	        ),
-	        _react2.default.createElement(
-	          'button',
-	          {
-	            onClick: function onClick() {
-	              return _this4.handleClearSearchInput();
-	            } },
-	          'Clear'
-	        ),
 	        _react2.default.createElement(_CreateGoal2.default, { reference: this.reference }),
 	        _react2.default.createElement(
-	          'div',
+	          'article',
+	          { className: 'SearchRoom' },
+	          _react2.default.createElement('input', {
+	            className: 'search',
+	            onChange: function onChange(event) {
+	              _this4.setState({ search: event.target.value.toLowerCase() });
+	            },
+	            value: this.state.search }),
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'searchButton', onClick: function onClick() {
+	                return _this4.handleSearchInput();
+	              } },
+	            'Search'
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'clearButton', onClick: function onClick() {
+	                return _this4.handleClearSearchInput();
+	              } },
+	            'Clear'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'article',
 	          null,
 	          this.loadGoals()
 	        )
@@ -22454,7 +22453,7 @@
 
 	      return _react2.default.createElement(
 	        'section',
-	        { className: 'CreateGoal', onSubmit: this.createGoal.bind(this) },
+	        { className: 'CreateGoal' },
 	        _react2.default.createElement('input', {
 	          className: 'InputGoal',
 	          placeholder: 'Goal',
@@ -22463,7 +22462,7 @@
 	            return _this2.setState({ title: e.target.value });
 	          }
 	        }),
-	        _react2.default.createElement('button', { className: 'SubmitNewGoal' })
+	        _react2.default.createElement('button', { className: 'SubmitNewGoal', onClick: this.createGoal.bind(this) })
 	      );
 	    }
 	  }]);
@@ -22548,6 +22547,21 @@
 	      this.reference.off();
 	    }
 	  }, {
+	    key: 'sortActions',
+	    value: function sortActions() {
+
+	      var newActions = this.state.actions.sort(function (a, b) {
+	        if (a.category > b.category) {
+	          return 1;
+	        }
+	        if (a.value < b.value) {
+	          return -1;
+	        }
+	        return 0;
+	      });
+	      this.setState({ actions: newActions });
+	    }
+	  }, {
 	    key: 'loadActions',
 	    value: function loadActions() {
 	      var _this3 = this;
@@ -22560,7 +22574,8 @@
 	            reference: _this3.reference.child(action.key),
 	            actionUid: action.key,
 	            title: action.title,
-	            actionCompleted: action.isCompleted
+	            actionCompleted: action.isCompleted,
+	            category: action.category
 	          })
 	        );
 	      });
@@ -22568,20 +22583,25 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var dataId = this.props.dataId;
+	      var _this4 = this;
+
+	      var _props = this.props;
+	      var dataId = _props.dataId;
+	      var category = _props.category;
 
 
 	      return _react2.default.createElement(
 	        'section',
-	        { className: 'Goal' },
+	        { accessKey: dataId, className: 'goalContainer' },
 	        _react2.default.createElement(
 	          'article',
-	          { accessKey: dataId, className: 'ActionList' },
+	          { className: 'Goal' },
 	          _react2.default.createElement(
 	            'h3',
 	            { className: 'goalTitle' },
 	            this.props.title
-	          )
+	          ),
+	          _react2.default.createElement('div', { className: 'addNewAction' })
 	        ),
 	        _react2.default.createElement(
 	          'article',
@@ -22594,6 +22614,13 @@
 	            'div',
 	            null,
 	            this.loadActions()
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: function onClick() {
+	                return _this4.sortActions();
+	              } },
+	            'Sort'
 	          )
 	        )
 	      );
@@ -22642,14 +22669,16 @@
 	var CreateAction = function (_Component) {
 	  _inherits(CreateAction, _Component);
 
-	  function CreateAction() {
+	  function CreateAction(props) {
 	    _classCallCheck(this, CreateAction);
 
-	    var _this = _possibleConstructorReturn(this, (CreateAction.__proto__ || Object.getPrototypeOf(CreateAction)).call(this));
+	    var _this = _possibleConstructorReturn(this, (CreateAction.__proto__ || Object.getPrototypeOf(CreateAction)).call(this, props));
 
 	    _this.state = {
-	      title: '',
-	      isCompleted: false
+	      title: _this.props.title,
+	      isCompleted: false,
+	      isEditing: false,
+	      category: 'activity'
 	    };
 	    return _this;
 	  }
@@ -22659,12 +22688,13 @@
 	    value: function createAction(e) {
 	      e.preventDefault();
 	      var title = this.state.title;
+	      var category = this.state.category;
 	      var accessKey = this.props.accessKey;
 
 	      var currentUser = _firebase2.default.auth().currentUser.uid;
 	      var reference = _firebase2.default.database().ref(currentUser + '/' + accessKey);
-	      reference.push({ title: title, isCompleted: false, isEditing: false });
-	      this.setState({ title: title });
+	      reference.push(this.state);
+	      this.setState({ title: title, category: category });
 	    }
 	  }, {
 	    key: 'render',
@@ -22680,6 +22710,35 @@
 	            return _this2.setState({ title: e.target.value });
 	          }
 	        }),
+	        _react2.default.createElement(
+	          'select',
+	          {
+	            value: this.state.value,
+	            onChange: function onChange(e) {
+	              return _this2.setState({ category: e.target.value });
+	            }
+	          },
+	          _react2.default.createElement(
+	            'option',
+	            { value: 'activity' },
+	            'Activity'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: 'recovery' },
+	            'Recovery'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: 'nutrition' },
+	            'Nutrition'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            { value: 'personal' },
+	            'Personal'
+	          )
+	        ),
 	        _react2.default.createElement('input', { type: 'submit', value: 'Create Action' })
 	      );
 	    }
@@ -22729,7 +22788,8 @@
 	    _this.state = {
 	      title: _this.props.title,
 	      isCompleted: false,
-	      isEditing: false
+	      isEditing: false,
+	      category: _this.props.category
 	    };
 	    return _this;
 	  }
@@ -22768,7 +22828,7 @@
 	            'article',
 	            {
 	              accessKey: actionUid,
-	              className: this.toggleActionClass(this.props.actionCompleted) + " ActionList"
+	              className: this.toggleActionClass(this.props.actionCompleted) + " ActionList " + this.props.category
 	            },
 	            _react2.default.createElement(
 	              'h3',
@@ -22778,6 +22838,11 @@
 	                }
 	              },
 	              this.state.title
+	            ),
+	            _react2.default.createElement(
+	              'h3',
+	              null,
+	              this.props.category
 	            ),
 	            _react2.default.createElement(
 	              'button',
@@ -22872,15 +22937,11 @@
 	      )
 	    ),
 	    _react2.default.createElement(
-	      'article',
-	      { className: 'UserSignOut' },
-	      _react2.default.createElement(
-	        'button',
-	        { className: 'SignOut', onClick: function onClick() {
-	            return _firebase2.default.auth().signOut();
-	          } },
-	        'Give Up'
-	      )
+	      'button',
+	      { className: 'SignOut', onClick: function onClick() {
+	          return _firebase2.default.auth().signOut();
+	        } },
+	      'Give Up'
 	    )
 	  );
 	};
@@ -22930,7 +22991,7 @@
 
 
 	// module
-	exports.push([module.id, "/* http://meyerweb.com/eric/tools/css/reset/\n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe,\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\na, abbr, acronym, address, big, cite, code,\ndel, dfn, em, img, ins, kbd, q, s, samp,\nsmall, strike, strong, sub, sup, tt, var,\nb, u, i, center,\ndl, dt, dd, ol, ul, li,\nfieldset, form, label, legend,\ntable, caption, tbody, tfoot, thead, tr, th, td,\narticle, aside, canvas, details, embed,\nfigure, figcaption, footer, header, hgroup,\nmenu, nav, output, ruby, section, summary,\ntime, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  vertical-align: baseline; }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure,\nfooter, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after,\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\nbody {\n  background-color: #3B596A; }\n\n.Goal {\n  height: 125px;\n  width: 100%;\n  background-color: #4F8A8A;\n  border-bottom: 1px solid #21333D;\n  box-shadow: 22px 20px 25px -3px rgba(0, 0, 0, 0.25);\n  display: flex;\n  justify-content: flex-start;\n  align-items: center;\n  font-family: \"Roboto\", sans-serif; }\n\n.Action {\n  background-color: pink; }\n\n.goalTitle {\n  margin-left: 7vw; }\n\nbody {\n  background-color: #3B596A; }\n\nbody {\n  background-color: #3B596A; }\n\nnav {\n  width: 100%;\n  height: 15vh;\n  background-image: linear-gradient(rgba(255, 255, 255, 0.2), #3B596A 80%); }\n\n.main-title {\n  display: inline-block;\n  margin: 40px;\n  font-family: \"Roboto\", sans-serif;\n  right: 0;\n  font-size: 2em;\n  color: #B7EC60; }\n\n.menu {\n  margin-top: 40px;\n  margin-right: 20px;\n  padding: 20px;\n  float: right;\n  background: url(/lib/css/img/menu.svg) no-repeat; }\n\nbody {\n  background-color: #3B596A; }\n\n.UserBio {\n  width: 100%;\n  height: 3vh;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: flex-end;\n  font-family: \"Roboto\", sans-serif; }\n\n.SignOut {\n  width: 100%;\n  height: 40px;\n  margin: auto;\n  position: absolute;\n  bottom: 0;\n  background-color: #B7EC60;\n  border: none;\n  font-size: \"Roboto\", sans-serif;\n  font-size: .8em;\n  box-shadow: 22px 20px 25px -3px rgba(0, 0, 0, 0.25); }\n\nbody {\n  background-color: #3B596A; }\n\n#application {\n  background-color: #3B596A;\n  height: 100%;\n  width: 100%; }\n\n@media (min-width: 0px) {\n  .CreateGoal {\n    height: 20vh;\n    widows: 100%;\n    background-color: #ECDB60;\n    box-shadow: 22px 20px 25px -3px rgba(0, 0, 0, 0.25);\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    flex-direction: column; }\n  .InputGoal {\n    height: 30px;\n    width: 70vw;\n    font-family: \"Roboto\", sans-serif; }\n  .SubmitNewGoal {\n    padding: 10px;\n    margin-top: 20px;\n    height: 30px;\n    width: 30px;\n    background: url(/lib/css/img/plus-icon.svg) no-repeat;\n    border: none; } }\n\n@media (min-width: 400px) {\n  .CreateGoal {\n    height: 10vh;\n    flex-direction: row; }\n  .InputGoal {\n    margin-left: 5vw; }\n  .SubmitNewGoal {\n    margin-top: 0px;\n    margin-left: 5vw; } }\n\nbody {\n  background-color: #3B596A; }\n\n.SignIn {\n  background-color: #3B596A;\n  height: 100vh;\n  width: 100vw;\n  position: absolute;\n  top: 0;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n  background-image: linear-gradient(rgba(255, 255, 255, 0.2), #3B596A 80%); }\n\n.SignIn-title {\n  font-size: 3em;\n  font-family: \"Roboto\", sans-serif;\n  color: #B7EC60; }\n\n.Gains-Logo {\n  background: url(/lib/css/img/logo.png) no-repeat;\n  padding: 50px;\n  height: 100px;\n  width: 100px;\n  background-position: center; }\n\n.SignInButton {\n  height: 40px;\n  width: 150px;\n  border-radius: 20px;\n  background-color: #B7EC60;\n  border: none;\n  font-size: \"Roboto\", sans-serif;\n  font-size: .8em;\n  box-shadow: 22px 20px 25px -3px rgba(0, 0, 0, 0.25);\n  margin: auto; }\n", ""]);
+	exports.push([module.id, "/* http://meyerweb.com/eric/tools/css/reset/\n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe,\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\na, abbr, acronym, address, big, cite, code,\ndel, dfn, em, img, ins, kbd, q, s, samp,\nsmall, strike, strong, sub, sup, tt, var,\nb, u, i, center,\ndl, dt, dd, ol, ul, li,\nfieldset, form, label, legend,\ntable, caption, tbody, tfoot, thead, tr, th, td,\narticle, aside, canvas, details, embed,\nfigure, figcaption, footer, header, hgroup,\nmenu, nav, output, ruby, section, summary,\ntime, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  vertical-align: baseline; }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure,\nfooter, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after,\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\nbody {\n  background-color: #3B596A; }\n\n.Goal {\n  height: 50px;\n  width: 100%;\n  background-color: #21333D;\n  font-family: \"Roboto\", sans-serif;\n  color: #B7EC60;\n  font-size: 1.2em;\n  display: flex;\n  justify-content: space-between;\n  flex-direction: row; }\n\n.goalTitle {\n  padding-left: 7vw;\n  padding-top: 16px; }\n\n.addNewAction {\n  background: url(/lib/css/img/plus-icon.svg) no-repeat;\n  background-position: center;\n  padding: 20px;\n  display: inline-block;\n  padding-right: 12vw; }\n\n.Action {\n  background-color: pink;\n  height: 125px;\n  width: 100%;\n  background-color: #4F8A8A;\n  border-bottom: 1px solid #21333D;\n  box-shadow: 22px 20px 25px -3px rgba(0, 0, 0, 0.25);\n  display: flex;\n  justify-content: flex-start;\n  align-items: center;\n  font-family: \"Roboto\", sans-serif; }\n\nbody {\n  background-color: #3B596A; }\n\nbody {\n  background-color: #3B596A; }\n\nnav {\n  width: 100%;\n  height: 15vh;\n  background-image: linear-gradient(rgba(255, 255, 255, 0.2), #3B596A 80%); }\n\n.main-title {\n  display: inline-block;\n  margin: 40px;\n  font-family: \"Roboto\", sans-serif;\n  right: 0;\n  font-size: 2em;\n  color: #B7EC60; }\n\n.menu {\n  margin-top: 40px;\n  margin-right: 20px;\n  padding: 20px;\n  float: right;\n  background: url(/lib/css/img/menu.svg) no-repeat; }\n\nbody {\n  background-color: #3B596A; }\n\n.UserBio {\n  width: 100%;\n  height: 3vh;\n  padding: 0;\n  margin: 0;\n  font-family: \"Roboto\", sans-serif;\n  font-size: .7em; }\n\n.SignOut {\n  width: 100%;\n  height: 40px;\n  margin: auto;\n  position: fixed;\n  bottom: 0;\n  background-color: #B7EC60;\n  border: none;\n  font-size: \"Roboto\", sans-serif;\n  font-size: .8em;\n  box-shadow: 22px 20px 25px -3px rgba(0, 0, 0, 0.25); }\n\nbody {\n  background-color: #3B596A; }\n\n.SignIn {\n  height: 100vh;\n  width: 100vw;\n  position: absolute;\n  top: 0;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n  height: 100vh;\n  width: 100vw;\n  background-color: #3B596A;\n  background-image: linear-gradient(rgba(255, 255, 255, 0.2), #3B596A 80%);\n  font-family: \"Roboto\", sans-serif; }\n\n.SignIn-title {\n  font-size: 3em;\n  color: #B7EC60; }\n\n.Gains-Logo {\n  width: 100px;\n  margin-top: 30px;\n  padding: 50px;\n  background: url(/lib/css/img/logo.png) no-repeat;\n  background-position: center; }\n\n.SignInButton {\n  height: 40px;\n  width: 150px;\n  margin-top: 30px;\n  padding: 0;\n  border-radius: 20px;\n  background-color: #B7EC60;\n  border: none;\n  font-size: \"Roboto\", sans-serif;\n  font-size: .8em;\n  box-shadow: 22px 20px 25px -3px rgba(0, 0, 0, 0.25); }\n\nbody {\n  background-color: #3B596A; }\n\n#application {\n  background-color: #3B596A;\n  height: 100%;\n  width: 100%; }\n\n@media (min-width: 0px) {\n  .CreateGoal {\n    height: 20vh;\n    widows: 100%;\n    background-color: #ECDB60;\n    box-shadow: 22px 20px 25px -3px rgba(0, 0, 0, 0.25);\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    flex-direction: column; }\n  .InputGoal {\n    background: none;\n    border: 2px solid #e0e0e0;\n    background-color: #e0e0e0;\n    height: 30px;\n    width: 70vw;\n    font-family: \"Roboto\", sans-serif; }\n  .SubmitNewGoal {\n    padding: 10px;\n    margin-top: 20px;\n    height: 30px;\n    width: 30px;\n    background: url(/lib/css/img/plus-icon.svg) no-repeat;\n    border: none; } }\n\n@media (min-width: 400px) {\n  .CreateGoal {\n    height: 10vh;\n    flex-direction: row; }\n  .InputGoal {\n    margin-left: 5vw; }\n  .SubmitNewGoal {\n    margin-top: 0px;\n    margin-left: 5vw; } }\n\nbody {\n  background-color: #3B596A; }\n\n.SearchRoom {\n  width: 100%;\n  height: 80px;\n  background-color: #ECDB60;\n  border: none;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: row; }\n\n.search {\n  background: none;\n  border: 2px solid #e0e0e0;\n  background-color: #e0e0e0;\n  height: 30px;\n  width: 70vw;\n  font-family: \"Roboto\", sans-serif; }\n", ""]);
 
 	// exports
 

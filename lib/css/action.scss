@@ -1,0 +1,33 @@
+@import 'variables';
+
+.Action{
+  background-color: $color-compliment-two;
+  border-bottom: 1px solid $color-compliment-two-dark;
+}
+
+.actionTitle {
+  padding-left: 7vw;
+  padding-top: 16px;
+  font-family: $font-main;
+}
+
+.activity {
+  @include action-style;
+  background-color: $color-highlight;
+}
+
+.nutrition {
+  @include action-style;
+  background-color: $color-highlight-two;
+}
+
+.recovery {
+  @include action-style;
+  background-color: $color-compliment-one;
+}
+
+.personal {
+  @include action-style;
+  background-color: $color-compliment-two;
+  color: $color-highlight;
+}

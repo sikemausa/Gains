@@ -1,0 +1,16 @@
+@import 'variables';
+
+.SearchRoom {
+  width: 100%;
+  height: 80px;
+  background-color: $color-highlight;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.search{
+  @include input-style;
+}
