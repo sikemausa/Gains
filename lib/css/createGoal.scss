@@ -11,14 +11,13 @@
   .CreateGoal {
     height: 20vh;
     widows: 100%;
-    background-color: darken($color-highlight-two, 3%);
+    background-color: lighten($color-compliment-two-dark, 5%);
     @include shadow;
 
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
   }
 
   .InputGoal{
