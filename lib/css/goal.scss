@@ -21,10 +21,20 @@
   padding-top: 16px;
 }
 
-.addNewAction {
-  background: url(/lib/css/img/plus-icon.svg) no-repeat;
-  background-position: center;
-  padding: 20px;
+.deleteGoal {
   display: inline-block;
-  padding-right: 12vw;
+  position: absolute;
+  right: 7px;
+  margin-top: 10px;
+  padding: 15px;
+
+  background: url(/lib/css/img/x-icon-light.svg) no-repeat;
+  background-position: center;
+
+  border: none;
+  opacity: .6;
+
+  &:hover {
+    opacity: 1;
+  }
 }
