@@ -20,7 +20,7 @@
   margin: 0;
   font-family: $font-main;
   font-size: .7em;
-  
+
 }
 
 .SignOut {
@@ -29,5 +29,5 @@
   margin: auto;
   position: fixed;
   bottom: 0;
-  @include button-style;
+  @include auth-button-style;
 }
