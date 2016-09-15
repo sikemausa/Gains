@@ -7,7 +7,7 @@
 
 .actionTitle {
   padding-left: 7vw;
-  padding-top: 16px;
+  padding-top: 10px;
   font-family: $font-main;
 }
 
@@ -30,4 +30,50 @@
   @include action-style;
   background-color: $color-compliment-two;
   color: $color-highlight;
+}
+
+.actionCatTitle {
+  @include action-cat-title;
+  position: absolute;
+  top: 0px;
+  margin-left: 0;
+}
+
+.ActionDelete{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background: url(/lib/css/img/x-icon.svg) no-repeat;
+  background-position: center;
+  padding: 20px;
+  border: none;
+  opacity: .7;
+  &:hover {
+    opacity: 1;
+    background-position: center;
+    padding: 20px;
+    border: none;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+  }
+}
+
+.ActionComplete {
+  background: url(/lib/css/img/check-dark.svg) no-repeat;
+  background-position: center;
+  padding: 20px;
+  border: none;
+  margin: 0;
+  margin-left: 3vw;
+  opacity: .7;
+  z-index: 3;
+  &:hover {
+    opacity: 1;
+    background-position: center;
+    padding: 20px;
+    border: none;
+    margin: 0;
+    margin-left: 3vw;
+  }
 }
