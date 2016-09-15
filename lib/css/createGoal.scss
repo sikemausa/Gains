@@ -22,9 +22,7 @@
   }
 
   .InputGoal{
-    height: 30px;
-    width: 70vw;
-    font-family: $font-main;
+    @include input-style;
   }
 
   .SubmitNewGoal {
