@@ -5,9 +5,10 @@ $color-hightlight-three: #A1CD73;
 $color-compliment-one: #4DBA9E;
 $color-compliment-two: #4F8A8A;
 $color-compliment-two-dark: #21333D;
-$color-input-main: lighten($color-highlight, 16%);
-
 $color-compliment-three: rgba(255, 255, 255, .2);
+$color-input-main: rgba(255, 255, 255, .8);
+
+$color-shadow: rgba(0, 0, 0, .2);
 
 $font-main: 'Roboto', sans-serif;
 $font-size-button-main: 1em;
@@ -17,7 +18,11 @@ $font-size-button-main: 1em;
 }
 
 @mixin gradient(){
-  background-image:linear-gradient($color-compliment-three, $color-main 80%);
+  background-image:linear-gradient($color-compliment-three, $color-compliment-two-dark 80%);
+}
+
+@mixin action-gradient($color){
+  background-image:linear-gradient($color-shadow, $color 80%);
 }
 
 @mixin general-button-style(){
@@ -63,12 +68,4 @@ $font-size-button-main: 1em;
   text-transform: uppercase;
   font-size: 3.5em;
   opacity: .2;
-}
-
-body {
- background-color: $color-compliment-two-dark;
-}
-
-button {
-  @include general-button-style;
 }
