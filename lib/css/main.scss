@@ -22,3 +22,9 @@
 .recovery {
   background-color: $color-compliment-one
 }
+
+.complete {
+  font-style: italic;
+  color: rgb(113, 113, 113);
+  background: $color-compliment-two-dark;
+}
