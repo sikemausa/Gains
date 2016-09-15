@@ -3,17 +3,33 @@ $color-highlight: #ECDB60;
 $color-highlight-two: #B7EC60;
 $color-compliment-one: #4DBA9E;
 $color-compliment-two: #4F8A8A;
-$color-compliment-three: #FFFFFF;
+$color-compliment-two-dark: #21333D;
+
+$color-compliment-three: rgba(255, 255, 255, .2);
 
 $font-main: 'Roboto', sans-serif;
 
 @mixin shadow() {
-  -moz-box-shadow: 0px 10px 30px 0px #000000;
-  -webkit-box-shadow: 0px 10px 30px 0px #000000;
-  box-shadow: 0px 10px 30px 0px #000000;
+  box-shadow: 22px 20px 25px -3px rgba(0,0,0,0.25);
 }
 
-@mixin liniar-gradiant() {
-  background-image: linear-rgradient( 90 deg, $color-compliment-three, $color-main
-  );
+@mixin gradient(){
+  background-image:linear-gradient($color-compliment-three, $color-main 80%);
+}
+
+@mixin button-style(){
+  background-color: $color-highlight-two;
+  border: none;
+  font-size: $font-main;
+  font-size: .8em;
+  @include shadow;
+}
+
+@mixin input-style(){
+  background: none;
+  border: 2px solid #e0e0e0;
+}
+
+body {
+ background-color: #3B596A ;
 }

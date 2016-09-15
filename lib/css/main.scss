@@ -1,6 +1,8 @@
 @import 'reset';
-@import 'General';
+@import 'goal';
+@import 'variables';
 @import 'nav';
+<<<<<<< HEAD
 @import 'SignIn';
 // @import 'SignIn';
 // @import 'GoalRoom';
@@ -22,3 +24,8 @@
 .complete {
   background-color: blue;
 }
+=======
+@import 'userInfo';
+@import 'goalRoom';
+@import 'sign-in';
+>>>>>>> 0b69404d7901ce6687e95a9fbaefc33d95bb128b
