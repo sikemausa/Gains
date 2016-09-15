@@ -1,0 +1,22 @@
+@import 'variables';
+
+.Goal {
+  height: 125px;
+  width: 100%;
+  background-color: $color-compliment-two;
+  border-bottom: 1px solid $color-compliment-two-dark;
+  @include shadow;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-family: $font-main;
+}
+
+.Action{
+  background-color: pink;
+
+}
+
+.goalTitle{
+  margin-left: 7vw;
+}

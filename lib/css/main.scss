@@ -1,24 +1,7 @@
 @import 'reset';
-@import 'General';
+@import 'goal';
+@import 'variables';
 @import 'nav';
-@import 'SignIn';
-// @import 'SignIn';
-// @import 'GoalRoom';
-
-
-#application {
-  height: 100vh;
-  width: 100vw;
-  background-color: red;
-}
-
-.GoalRoom {
-  background-color: orange;
-  height: 100%;
-  width: 100%;
-}
-
-
-.complete {
-  background-color: blue;
-}
+@import 'userInfo';
+@import 'goalRoom';
+@import 'sign-in';
