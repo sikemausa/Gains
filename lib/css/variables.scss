@@ -56,6 +56,13 @@ $font-size-button-main: 1em;
   align-items: center;
   font-family: $font-main;
   color: $color-main;
+  position: relative;
+}
+
+@mixin action-cat-title(){
+  text-transform: uppercase;
+  font-size: 3.5em;
+  opacity: .2;
 }
 
 body {
