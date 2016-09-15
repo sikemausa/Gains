@@ -1,38 +1,43 @@
 @import 'variables';
 
 .SignIn {
-  background-color: $color-main;
   height: 100vh;
   width: 100vw;
   position: absolute;
   top: 0;
+
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  @include gradient;
 
+  height: 100vh;
+  width: 100vw;
+  background-color: $color-main;
+  @include gradient;
+  font-family: $font-main;
 }
 
 .SignIn-title {
   font-size: 3em;
-  font-family: $font-main;
   color: $color-highlight-two;
 }
 
-
 .Gains-Logo{
-  background: url(/lib/css/img/logo.png) no-repeat;
-  padding: 50px;
-  height: 100px;
   width: 100px;
-  background-position: center;
+  margin-top: 30px;
 
+  padding: 50px;
+  background: url(/lib/css/img/logo.png) no-repeat;
+  background-position: center;
 }
+
 .SignInButton {
   height: 40px;
   width: 150px;
+  margin-top: 30px;
+  padding: 0;
+
   border-radius: 20px;
   @include button-style;
-  margin: auto;
 }

@@ -5,6 +5,7 @@ $color-hightlight-three: #A1CD73;
 $color-compliment-one: #4DBA9E;
 $color-compliment-two: #4F8A8A;
 $color-compliment-two-dark: #21333D;
+$color-input-main: #e0e0e0;
 
 $color-compliment-three: rgba(255, 255, 255, .2);
 
@@ -28,9 +29,25 @@ $font-main: 'Roboto', sans-serif;
 
 @mixin input-style(){
   background: none;
-  border: 2px solid #e0e0e0;
+  border: 2px solid $color-input-main;
+  background-color: $color-input-main;
+  height: 30px;
+  width: 70vw;
+  font-family: $font-main;
+}
+
+@mixin action-style() {
+  @include shadow;
+  height: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-family: $font-main;
+  color: $color-main;
+
 }
 
 body {
- background-color: #3B596A ;
+ background-color: #3B596A;
 }

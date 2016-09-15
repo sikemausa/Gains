@@ -3,22 +3,7 @@
 @import 'variables';
 @import 'nav';
 @import 'userInfo';
-@import 'goalRoom';
 @import 'sign-in';
-
-
-.nutrition {
-  background-color: $color-highlight-two;
-}
-
-.activity {
-  background-color: $color-highlight
-}
-
-.personal {
-  background-color: $color-compliment-two;
-}
-
-.recovery {
-  background-color: $color-compliment-one
-}
+@import 'createGoal';
+@import 'searchGoal';
+@import 'action';
