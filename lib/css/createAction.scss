@@ -1,0 +1,54 @@
+@import 'variables';
+
+
+@media (min-width: 0px) {
+  .CreateAction {
+    height: 20vh;
+    widows: 100%;
+    background-color: $color-highlight-two;
+    @include shadow;
+    font-family: $font-main;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .ActionInformation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .InputAction{
+    @include input-style;
+  }
+
+  .addAction {
+    padding: 20px;
+    margin-top: 20px;
+    height: 10px;
+    width: 10px;
+    background: url(/lib/css/img/plus-icon.svg) no-repeat;
+    background-position: center;
+    border: none;
+  }
+}
+
+@media (min-width: 400px) {
+  .CreateAction {
+    height: 10vh;
+    flex-direction: row;
+  }
+
+  .InputAction{
+    margin-left: 5vw;
+  }
+
+  .addAction {
+    margin-top: 0px;
+    margin-left: 5vw;
+  }
+}
