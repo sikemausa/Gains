@@ -22191,8 +22191,14 @@
 	        'section',
 	        { className: 'SignIn' },
 	        _react2.default.createElement(
+	          'h1',
+	          { className: 'SignIn-title' },
+	          'GAINS'
+	        ),
+	        _react2.default.createElement('article', { className: 'Gains-Logo' }),
+	        _react2.default.createElement(
 	          'button',
-	          { onClick: function onClick() {
+	          { className: 'SignInButton', onClick: function onClick() {
 	              return _firebase2.default.auth().signInWithPopup(_firebase.provider);
 	            } },
 	          'Get Swoll'
@@ -22253,19 +22259,14 @@
 	    var _this = _possibleConstructorReturn(this, (GoalRoom.__proto__ || Object.getPrototypeOf(GoalRoom)).call(this));
 
 	    _this.state = {
-	      goals: []
+	      goals: [],
+	      search: '',
+	      searchedGoals: null
 	    };
 	    return _this;
 	  }
 
 	  _createClass(GoalRoom, [{
-	    key: 'removeGoal',
-	    value: function removeGoal(uid) {
-	      this.reference.child(uid).remove();
-	      var currentUser = _firebase2.default.auth().currentUser.uid;
-	      _firebase2.default.database().ref(currentUser + '/' + uid).remove();
-	    }
-	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var _this2 = this;
@@ -22275,9 +22276,7 @@
 	        goals = splitObject(goals).map(function (goal) {
 	          return Object.assign({ key: goal.key }, goal.value);
 	        });
-	        _this2.setState({
-	          goals: goals
-	        });
+	        _this2.setState({ goals: goals });
 	      });
 	    }
 	  }, {
@@ -22286,19 +22285,43 @@
 	      this.reference.off();
 	    }
 	  }, {
+	    key: 'handleSearchInput',
+	    value: function handleSearchInput() {
+	      this.setState({ searchedGoals: [] });
+	      var arr = [];
+	      if (this.state.search !== '') {
+	        for (var i = 0; i < this.state.goals.length; i++) {
+	          if (this.state.goals[i].title.toLowerCase().includes(this.state.search)) {
+	            arr.push(this.state.goals[i]);
+	          }
+	        }
+	      }
+	      console.log(this.state);
+	      this.setState({ searchedGoals: arr });
+	    }
+	  }, {
+	    key: 'handleClearSearchInput',
+	    value: function handleClearSearchInput() {
+	      this.setState({ search: '', searchedGoals: null });
+	    }
+	  }, {
 	    key: 'loadGoals',
 	    value: function loadGoals() {
 	      var _this3 = this;
 
+	      var goaltype = this.state.goals;
 	      var currentReference = this.reference;
-	      return this.state.goals.map(function (goal) {
+
+	      if (this.state.searchedGoals) {
+	        goaltype = this.state.searchedGoals;
+	      }
+	      return goaltype.map(function (goal) {
 	        var currentTitle = goal.title;
 	        var currentKey = goal.key;
 	        return _react2.default.createElement(
 	          'section',
 	          { key: currentKey },
 	          _react2.default.createElement(_Goal2.default, {
-	            removeGoal: _this3.removeGoal,
 	            dataId: currentKey,
 	            reference: currentReference,
 	            title: currentTitle
@@ -22306,19 +22329,46 @@
 	          _react2.default.createElement(
 	            'button',
 	            { onClick: function onClick() {
-	                _this3.removeGoal(currentKey);
+	                _this3.reference.child(goal.key).remove();
 	              } },
 	            'Delete'
 	          )
 	        );
+	        _this3.setState({ searchedGoals: [] });
 	      });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this4 = this;
+
 	      return _react2.default.createElement(
 	        'section',
 	        { className: 'GoalRoom' },
+	        _react2.default.createElement('input', {
+	          className: 'search',
+	          onChange: function onChange(event) {
+	            _this4.setState({ search: event.target.value.toLowerCase() });
+	          },
+	          value: this.state.search
+	        }),
+	        _react2.default.createElement(
+	          'button',
+	          {
+	            onClick: function onClick() {
+	              return _this4.handleSearchInput();
+	            }
+	          },
+	          'Search'
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          {
+	            onClick: function onClick() {
+	              return _this4.handleClearSearchInput();
+	            } },
+	          'Clear'
+	        ),
 	        _react2.default.createElement(_CreateGoal2.default, { reference: this.reference }),
 	        _react2.default.createElement(
 	          'div',
@@ -22403,15 +22453,17 @@
 	      var _this2 = this;
 
 	      return _react2.default.createElement(
-	        'form',
+	        'section',
 	        { className: 'CreateGoal', onSubmit: this.createGoal.bind(this) },
-	        _react2.default.createElement('input', { placeholder: 'Goal',
+	        _react2.default.createElement('input', {
+	          className: 'InputGoal',
+	          placeholder: 'Goal',
 	          value: this.state.title,
 	          onChange: function onChange(e) {
 	            return _this2.setState({ title: e.target.value });
 	          }
 	        }),
-	        _react2.default.createElement('input', { type: 'submit', value: 'Create Goal' })
+	        _react2.default.createElement('button', { className: 'SubmitNewGoal' })
 	      );
 	    }
 	  }]);
@@ -22503,7 +22555,7 @@
 	      return this.state.actions.map(function (action) {
 	        return _react2.default.createElement(
 	          'section',
-	          { key: action.key },
+	          { className: 'Action', key: action.key },
 	          _react2.default.createElement(_Action2.default, {
 	            reference: _this3.reference.child(action.key),
 	            actionUid: action.key,
@@ -22521,13 +22573,13 @@
 
 	      return _react2.default.createElement(
 	        'section',
-	        { className: 'ActionRoom' },
+	        { className: 'Goal' },
 	        _react2.default.createElement(
 	          'article',
 	          { accessKey: dataId, className: 'ActionList' },
 	          _react2.default.createElement(
 	            'h3',
-	            null,
+	            { className: 'goalTitle' },
 	            this.props.title
 	          )
 	        ),
@@ -22683,11 +22735,18 @@
 	  }
 
 	  _createClass(Action, [{
+	    key: 'toggleActionClass',
+	    value: function toggleActionClass(boolean) {
+	      if (boolean) return 'complete';
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
 
-	      var actionUid = this.props.actionUid;
+	      var _props = this.props;
+	      var actionUid = _props.actionUid;
+	      var actionCompleted = _props.actionCompleted;
 
 	      if (this.state.isEditing) {
 	        return _react2.default.createElement('input', {
@@ -22703,15 +22762,21 @@
 	      } else {
 	        return _react2.default.createElement(
 	          'section',
-	          { className: 'ActionRoom' },
+	          {
+	            className: 'ActionRoom' },
 	          _react2.default.createElement(
 	            'article',
-	            { accessKey: actionUid, className: 'ActionList' },
+	            {
+	              accessKey: actionUid,
+	              className: this.toggleActionClass(this.props.actionCompleted) + " ActionList"
+	            },
 	            _react2.default.createElement(
 	              'h3',
-	              { onClick: function onClick() {
+	              {
+	                onClick: function onClick() {
 	                  return _this2.setState({ isEditing: true });
-	                } },
+	                }
+	              },
 	              this.state.title
 	            ),
 	            _react2.default.createElement(
@@ -22795,16 +22860,15 @@
 	  return _react2.default.createElement(
 	    'section',
 	    { className: 'UserInformation' },
-	    _react2.default.createElement('article', { className: 'UserPhoto' }),
 	    _react2.default.createElement(
 	      'article',
 	      { className: 'UserBio' },
 	      _react2.default.createElement(
 	        'p',
 	        null,
-	        'Hello ',
+	        'Hey ',
 	        user.displayName,
-	        ', ready to kick butt today?'
+	        ' are you ready to make some gains?'
 	      )
 	    ),
 	    _react2.default.createElement(
@@ -22866,7 +22930,7 @@
 
 
 	// module
-	exports.push([module.id, "/* http://meyerweb.com/eric/tools/css/reset/\n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe,\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\na, abbr, acronym, address, big, cite, code,\ndel, dfn, em, img, ins, kbd, q, s, samp,\nsmall, strike, strong, sub, sup, tt, var,\nb, u, i, center,\ndl, dt, dd, ol, ul, li,\nfieldset, form, label, legend,\ntable, caption, tbody, tfoot, thead, tr, th, td,\narticle, aside, canvas, details, embed,\nfigure, figcaption, footer, header, hgroup,\nmenu, nav, output, ruby, section, summary,\ntime, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  vertical-align: baseline; }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure,\nfooter, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after,\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\nbody {\n  background-color: #3B596A; }\n\nbutton {\n  background: none;\n  border: 2px solid #e0e0e0; }\n\ninput {\n  background: none;\n  border: 2px solid #e0e0e0; }\n\nnav {\n  width: 100%;\n  height: 10vh;\n  font-family: \"Raleway\", sans-serif;\n  font-size: 3em;\n  background-color: pink; }\n\n.main-title {\n  display: inline-block;\n  right: 0;\n  background-color: blue; }\n\n.main-menu {\n  padding: 30px;\n  display: inline-block;\n  background: url(/img/menu.svg) no-repeat; }\n\n.UserInformation {\n  background-color: green;\n  width: 100%;\n  height: 5vh;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: flex-end;\n  font-family: \"Raleway\", sans-serif; }\n\n.UserBio {\n  background-color: orange; }\n\n#application {\n  height: 100vh;\n  width: 100vw;\n  background-color: red; }\n\n.GoalRoom {\n  background-color: orange;\n  height: 100%;\n  width: 100%; }\n", ""]);
+	exports.push([module.id, "/* http://meyerweb.com/eric/tools/css/reset/\n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml, body, div, span, applet, object, iframe,\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\na, abbr, acronym, address, big, cite, code,\ndel, dfn, em, img, ins, kbd, q, s, samp,\nsmall, strike, strong, sub, sup, tt, var,\nb, u, i, center,\ndl, dt, dd, ol, ul, li,\nfieldset, form, label, legend,\ntable, caption, tbody, tfoot, thead, tr, th, td,\narticle, aside, canvas, details, embed,\nfigure, figcaption, footer, header, hgroup,\nmenu, nav, output, ruby, section, summary,\ntime, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  vertical-align: baseline; }\n\n/* HTML5 display-role reset for older browsers */\narticle, aside, details, figcaption, figure,\nfooter, header, hgroup, menu, nav, section {\n  display: block; }\n\nbody {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\nblockquote, q {\n  quotes: none; }\n\nblockquote:before, blockquote:after,\nq:before, q:after {\n  content: '';\n  content: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\nbody {\n  background-color: #3B596A; }\n\n.Goal {\n  height: 125px;\n  width: 100%;\n  background-color: #4F8A8A;\n  border-bottom: 1px solid #21333D;\n  box-shadow: 22px 20px 25px -3px rgba(0, 0, 0, 0.25);\n  display: flex;\n  justify-content: flex-start;\n  align-items: center;\n  font-family: \"Roboto\", sans-serif; }\n\n.Action {\n  background-color: pink; }\n\n.goalTitle {\n  margin-left: 7vw; }\n\nbody {\n  background-color: #3B596A; }\n\nbody {\n  background-color: #3B596A; }\n\nnav {\n  width: 100%;\n  height: 15vh;\n  background-image: linear-gradient(rgba(255, 255, 255, 0.2), #3B596A 80%); }\n\n.main-title {\n  display: inline-block;\n  margin: 40px;\n  font-family: \"Roboto\", sans-serif;\n  right: 0;\n  font-size: 2em;\n  color: #B7EC60; }\n\n.menu {\n  margin-top: 40px;\n  margin-right: 20px;\n  padding: 20px;\n  float: right;\n  background: url(/lib/css/img/menu.svg) no-repeat; }\n\nbody {\n  background-color: #3B596A; }\n\n.UserBio {\n  width: 100%;\n  height: 3vh;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: flex-end;\n  font-family: \"Roboto\", sans-serif; }\n\n.SignOut {\n  width: 100%;\n  height: 40px;\n  margin: auto;\n  position: absolute;\n  bottom: 0;\n  background-color: #B7EC60;\n  border: none;\n  font-size: \"Roboto\", sans-serif;\n  font-size: .8em;\n  box-shadow: 22px 20px 25px -3px rgba(0, 0, 0, 0.25); }\n\nbody {\n  background-color: #3B596A; }\n\n#application {\n  background-color: #3B596A;\n  height: 100%;\n  width: 100%; }\n\n@media (min-width: 0px) {\n  .CreateGoal {\n    height: 20vh;\n    widows: 100%;\n    background-color: #ECDB60;\n    box-shadow: 22px 20px 25px -3px rgba(0, 0, 0, 0.25);\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    flex-direction: column; }\n  .InputGoal {\n    height: 30px;\n    width: 70vw;\n    font-family: \"Roboto\", sans-serif; }\n  .SubmitNewGoal {\n    padding: 10px;\n    margin-top: 20px;\n    height: 30px;\n    width: 30px;\n    background: url(/lib/css/img/plus-icon.svg) no-repeat;\n    border: none; } }\n\n@media (min-width: 400px) {\n  .CreateGoal {\n    height: 10vh;\n    flex-direction: row; }\n  .InputGoal {\n    margin-left: 5vw; }\n  .SubmitNewGoal {\n    margin-top: 0px;\n    margin-left: 5vw; } }\n\nbody {\n  background-color: #3B596A; }\n\n.SignIn {\n  background-color: #3B596A;\n  height: 100vh;\n  width: 100vw;\n  position: absolute;\n  top: 0;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n  background-image: linear-gradient(rgba(255, 255, 255, 0.2), #3B596A 80%); }\n\n.SignIn-title {\n  font-size: 3em;\n  font-family: \"Roboto\", sans-serif;\n  color: #B7EC60; }\n\n.Gains-Logo {\n  background: url(/lib/css/img/logo.png) no-repeat;\n  padding: 50px;\n  height: 100px;\n  width: 100px;\n  background-position: center; }\n\n.SignInButton {\n  height: 40px;\n  width: 150px;\n  border-radius: 20px;\n  background-color: #B7EC60;\n  border: none;\n  font-size: \"Roboto\", sans-serif;\n  font-size: .8em;\n  box-shadow: 22px 20px 25px -3px rgba(0, 0, 0, 0.25);\n  margin: auto; }\n", ""]);
 
 	// exports
 
