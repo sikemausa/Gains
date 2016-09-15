@@ -5,11 +5,12 @@ $color-hightlight-three: #A1CD73;
 $color-compliment-one: #4DBA9E;
 $color-compliment-two: #4F8A8A;
 $color-compliment-two-dark: #21333D;
-$color-input-main: #e0e0e0;
+$color-input-main: lighten($color-highlight, 16%);
 
 $color-compliment-three: rgba(255, 255, 255, .2);
 
 $font-main: 'Roboto', sans-serif;
+$font-size-button-main: 1em;
 
 @mixin shadow() {
   box-shadow: 22px 20px 25px -3px rgba(0,0,0,0.25);
@@ -19,7 +20,16 @@ $font-main: 'Roboto', sans-serif;
   background-image:linear-gradient($color-compliment-three, $color-main 80%);
 }
 
-@mixin button-style(){
+@mixin general-button-style(){
+  background-color: $color-compliment-two-dark;
+  border: none;
+  padding: 10px;
+  color: $color-input-main;
+  font-style: $font-main;
+  font-size: $font-size-button-main;
+}
+
+@mixin auth-button-style(){
   background-color: $color-highlight-two;
   border: none;
   font-size: $font-main;
@@ -33,6 +43,7 @@ $font-main: 'Roboto', sans-serif;
   background-color: $color-input-main;
   height: 30px;
   width: 70vw;
+  font-size: 1em;
   font-family: $font-main;
 }
 
@@ -45,9 +56,12 @@ $font-main: 'Roboto', sans-serif;
   align-items: center;
   font-family: $font-main;
   color: $color-main;
-
 }
 
 body {
  background-color: #3B596A;
+}
+
+button {
+  @include general-button-style;
 }
