@@ -19,7 +19,7 @@
 
 .nutrition {
   @include action-style;
-  background-color: $color-highlight-two;
+  background-color: $color-hightlight-three;
 }
 
 .recovery {
@@ -38,7 +38,10 @@
   position: absolute;
   top: 0px;
   margin-left: 0;
+<<<<<<< HEAD
+=======
   z-index: 0;
+>>>>>>> master
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -88,4 +91,10 @@
     margin: 0;
     margin-left: 3vw;
   }
+}
+
+.ActEditInput {
+  padding-left: 7vw;
+  padding-top: 10px;
+  font-family: $font-main;
 }
