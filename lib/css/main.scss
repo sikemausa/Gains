@@ -2,35 +2,9 @@
 @import 'goal';
 @import 'variables';
 @import 'nav';
-<<<<<<< HEAD
-@import 'SignIn';
-// @import 'SignIn';
-// @import 'GoalRoom';
-
-
-#application {
-  height: 100vh;
-  width: 100vw;
-  background-color: red;
-}
-
-.GoalRoom {
-  background-color: orange;
-  height: 100%;
-  width: 100%;
-}
-
-
-.complete {
-  background-color: blue;
-}
-=======
 @import 'userInfo';
 @import 'sign-in';
-<<<<<<< HEAD
->>>>>>> 0b69404d7901ce6687e95a9fbaefc33d95bb128b
-=======
 @import 'createGoal';
 @import 'searchGoal';
 @import 'action';
->>>>>>> 5735d12b2b940c6d536f8760fad4b0e5b6cb5afc
+@import 'createAction';

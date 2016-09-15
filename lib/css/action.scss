@@ -9,6 +9,7 @@
   padding-left: 7vw;
   padding-top: 10px;
   font-family: $font-main;
+  z-index: 3;
 }
 
 .activity {
@@ -18,7 +19,7 @@
 
 .nutrition {
   @include action-style;
-  background-color: $color-highlight-two;
+  background-color: $color-hightlight-three;
 }
 
 .recovery {
@@ -37,6 +38,9 @@
   position: absolute;
   top: 0px;
   margin-left: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .ActionDelete{
@@ -76,4 +80,10 @@
     margin: 0;
     margin-left: 3vw;
   }
+}
+
+.ActEditInput {
+  padding-left: 7vw;
+  padding-top: 10px;
+  font-family: $font-main;
 }
